@@ -77,7 +77,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: rgb(211, 196, 196);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-base);
 }
@@ -786,7 +786,7 @@
   border-color: var(--color-success-500) !important;
 }
 
-.form-input-valid ~ .form-validation-icon {
+.form-input-valid~.form-validation-icon {
   color: var(--color-success-400);
   opacity: 1;
 }
