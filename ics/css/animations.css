@@ -1,0 +1,218 @@
+/* ============================================
+   Animations & Transitions
+   ============================================ */
+
+/* === Fade In === */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* === Slide Up === */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Scale === */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* === Modal specific === */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+/* === Backdrop === */
+@keyframes backdropIn {
+  from { backdrop-filter: blur(0); opacity: 0; }
+  to { backdrop-filter: var(--glass-blur); opacity: 1; }
+}
+
+/* === Shake (error) === */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* === Pulse === */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* === Spin === */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* === Bounce subtle === */
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* === Glow pulse === */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+}
+
+/* === Slide in from right (sidebar/panel) === */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* === Progress bar === */
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: var(--progress-width, 100%); }
+}
+
+/* === Toast notification === */
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes toastOut {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+}
+
+/* === Tutorial spotlight === */
+@keyframes spotlightPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3),
+                0 0 0 8px rgba(59, 130, 246, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.2),
+                0 0 0 16px rgba(59, 130, 246, 0.08);
+  }
+}
+
+/* === Warning icon bounce === */
+@keyframes warningBounce {
+  0% { transform: scale(0) rotate(-10deg); }
+  50% { transform: scale(1.2) rotate(5deg); }
+  70% { transform: scale(0.9) rotate(-2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* === Stagger children === */
+.stagger-children > * {
+  animation: slideUp 400ms ease both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(10) { animation-delay: 450ms; }
+
+/* === Animation utility classes === */
+.animate-fade-in { animation: fadeIn var(--transition-base) ease both; }
+.animate-slide-up { animation: slideUp var(--transition-base) ease both; }
+.animate-scale-in { animation: scaleIn var(--transition-base) ease both; }
+.animate-shake { animation: shake 500ms ease; }
+.animate-pulse { animation: pulse 2s ease infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-bounce { animation: bounceSubtle 1s ease infinite; }

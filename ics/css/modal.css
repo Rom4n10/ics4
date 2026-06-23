@@ -1,0 +1,469 @@
+/* ============================================
+   Modals - Form, Confirm, Tutorial, Theme
+   ============================================ */
+
+/* === Modal Backdrop === */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* === Modal Container === */
+.modal {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.95) translateY(10px);
+  transition: transform var(--transition-base);
+}
+
+.modal-backdrop.open .modal {
+  transform: scale(1) translateY(0);
+}
+
+/* Size variants */
+.modal-sm { max-width: 420px; }
+.modal-md { max-width: 560px; }
+.modal-lg { max-width: 720px; }
+.modal-xl { max-width: 900px; }
+
+/* === Modal Header === */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+.modal-close:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+/* === Modal Body === */
+.modal-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* === Modal Footer === */
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.modal-footer-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-right: auto;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* =======================================
+   Confirmation Modal (R07F, R01N)
+   ======================================= */
+.confirm-modal .modal {
+  max-width: 420px;
+  text-align: center;
+}
+
+.confirm-modal .modal-body {
+  align-items: center;
+  padding: var(--space-8) var(--space-6);
+}
+
+.confirm-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-2);
+}
+
+.confirm-icon-wrapper.danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--color-danger-400);
+}
+
+.confirm-icon-wrapper.warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-warning-400);
+}
+
+.confirm-icon-wrapper svg {
+  width: 32px;
+  height: 32px;
+  animation: warningBounce 600ms ease both;
+}
+
+.confirm-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.confirm-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  max-width: 320px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+.confirm-actions .btn {
+  flex: 1;
+  max-width: 160px;
+}
+
+/* =======================================
+   Form Modal (Create/Edit)
+   ======================================= */
+.form-modal .modal {
+  max-width: 640px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 560px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =======================================
+   Tutorial Overlay (R03NF)
+   ======================================= */
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-tutorial);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-base);
+}
+
+.tutorial-overlay.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.tutorial-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.tutorial-spotlight {
+  position: absolute;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.65);
+  animation: spotlightPulse 2s ease infinite;
+  transition: all var(--transition-slow);
+  z-index: 1;
+}
+
+.tutorial-tooltip {
+  position: absolute;
+  z-index: 2;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-5);
+  width: 340px;
+  animation: slideUp 400ms ease both;
+}
+
+.tutorial-tooltip-step {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-400);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-2);
+}
+
+.tutorial-tooltip-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.tutorial-tooltip-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+.tutorial-tooltip-progress {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.tutorial-tooltip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-tertiary);
+  transition: all var(--transition-fast);
+}
+
+.tutorial-tooltip-dot.active {
+  background: var(--color-primary-500);
+  width: 20px;
+}
+
+.tutorial-tooltip-dot.completed {
+  background: var(--color-success-500);
+}
+
+.tutorial-tooltip-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tutorial-skip {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: color var(--transition-fast);
+}
+.tutorial-skip:hover { color: var(--color-text-primary); }
+
+.tutorial-nav-btns {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.tutorial-no-show {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.tutorial-no-show input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.tutorial-no-show label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+}
+
+/* =======================================
+   Theme Panel (R04NF)
+   ======================================= */
+.theme-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+  background: var(--color-bg-elevated);
+  border-left: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-modal);
+  transform: translateX(100%);
+  transition: transform var(--transition-slow);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.theme-panel.open {
+  transform: translateX(0);
+}
+
+.theme-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.theme-panel-title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.theme-panel-body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  flex: 1;
+}
+
+.theme-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.theme-section-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Theme mode selector */
+.theme-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.theme-mode-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+}
+
+.theme-mode-btn:hover {
+  border-color: var(--color-border-hover);
+}
+
+.theme-mode-btn.active {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-400);
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.theme-mode-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Density selector */
+.density-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.density-btn {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+.density-btn.active {
+  border-color: var(--color-primary-500);
+  color: var(--color-primary-400);
+  background: rgba(59, 130, 246, 0.08);
+}

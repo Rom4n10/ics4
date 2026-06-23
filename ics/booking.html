@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Reserva tu turno médico de forma rápida y sencilla - HealthAdmin">
+  <title>Reservar Turno | HealthAdmin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Design System (shared) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <!-- Shared Components (buttons, inputs, badges) -->
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Booking-specific CSS -->
+  <link rel="stylesheet" href="css/booking.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+  <div class="booking-shell">
+
+    <!-- ===== TIMER BAR (Fixed Top) ===== -->
+    <div id="timer-bar" class="timer-bar">
+      <div id="timer-bar-fill" class="timer-bar-fill"></div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="booking-header">
+      <div class="booking-brand">
+        <div class="booking-brand-icon">H</div>
+        <span class="booking-brand-text">HealthAdmin</span>
+      </div>
+
+      <div id="timer-display" class="booking-timer-display">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span class="timer-text">5:00</span>
+      </div>
+    </header>
+
+    <!-- ===== TIMEZONE BADGE ===== -->
+    <div id="timezone-badge" class="timezone-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span class="tz-name">Cargando zona horaria...</span>
+    </div>
+
+    <!-- ===== STEPPER ===== -->
+    <div id="booking-stepper" class="booking-stepper"></div>
+
+    <!-- ===== CONTENT AREA ===== -->
+    <div class="booking-content">
+
+      <!-- ======================= STEP 1: Event Type + Date ======================= -->
+      <div id="step-1" class="booking-step active">
+        <div>
+          <h1 class="step-title">¿Qué necesitás agendar?</h1>
+          <p class="step-subtitle">Seleccioná el tipo de consulta y el día que prefieras</p>
+        </div>
+
+        <!-- Event Type Selection -->
+        <div>
+          <h3 class="calendar-section-title">Tipo de Consulta</h3>
+          <div id="event-types-list" class="event-types-grid">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-section">
+          <h3 class="calendar-section-title">Seleccioná una fecha</h3>
+          <div id="calendar-widget" class="calendar-widget">
+            <div class="calendar-header">
+              <span id="calendar-month-label" class="calendar-month-label"></span>
+              <div class="calendar-nav-btns">
+                <button id="calendar-prev" class="calendar-nav-btn" onclick="navigateCalendar(-1)" aria-label="Mes anterior">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button id="calendar-next" class="calendar-nav-btn" onclick="navigateCalendar(1)" aria-label="Mes siguiente">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="calendar-weekdays">
+              <span class="calendar-weekday">Dom</span>
+              <span class="calendar-weekday">Lun</span>
+              <span class="calendar-weekday">Mar</span>
+              <span class="calendar-weekday">Mié</span>
+              <span class="calendar-weekday">Jue</span>
+              <span class="calendar-weekday">Vie</span>
+              <span class="calendar-weekday">Sáb</span>
+            </div>
+
+            <div id="calendar-days" class="calendar-days">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================= STEP 2: Time Slot Selection ======================= -->
+      <div id="step-2" class="booking-step">
+        <div>
+          <h1 class="step-title">Elegí tu horario</h1>
+          <p class="step-subtitle">Los horarios se muestran en tu zona horaria local</p>
+        </div>
+
+        <div class="time-slots-header">
+          <div>
+            <span id="selected-date-display" class="time-slots-date"></span>
+            <span id="selected-event-display" class="form-hint" style="display:block; margin-top: 2px;"></span>
+          </div>
+        </div>
+
+        <div id="time-slots-container">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ======================= STEP 3: Guest Data ======================= -->
+      <div id="step-3" class="booking-step">
+        <div>
+          <h1 class="step-title">Tus datos</h1>
+          <p class="step-subtitle">Completá tu información para confirmar la reserva</p>
+        </div>
+
+        <form class="booking-form" onsubmit="return false;" autocomplete="on">
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="guest-fullname">
+              Nombre completo <span class="required" style="color: var(--color-danger-400);">*</span>
+            </label>
+            <div class="form-input-with-icon" style="position: relative;">
+              <input type="text" id="guest-fullname" class="form-input"
+                     placeholder="Ej: María García López"
+                     autocomplete="name"
+                     required
+                     minlength="3"
+                     maxlength="100">
+              <svg class="form-validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <span class="form-error" style="display:none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Ingresá al menos 3 caracteres
+            </span>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label" for="guest-email">
+              Correo electrónico <span class="required" style="color: var(--color-danger-400);">*</span>
+            </label>
+            <div class="form-input-with-icon" style="position: relative;">
+              <input type="email" id="guest-email" class="form-input"
+                     placeholder="tu@email.com"
+                     autocomplete="email"
+                     required>
+              <svg class="form-validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <span class="form-error" style="display:none;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Ingresá un correo válido
+            </span>
+          </div>
+
+          <!-- Phone (Optional) -->
+          <div class="form-group">
+            <label class="form-label" for="guest-phone">
+              Teléfono <span class="field-optional">(opcional)</span>
+            </label>
+            <input type="tel" id="guest-phone" class="form-input"
+                   placeholder="+54 11 1234-5678"
+                   autocomplete="tel">
+          </div>
+
+          <!-- Note (Optional) -->
+          <div class="form-group">
+            <label class="form-label" for="guest-note">
+              Nota para el médico <span class="field-optional">(opcional)</span>
+            </label>
+            <textarea id="guest-note" class="form-input form-textarea"
+                      placeholder="Ej: Tengo alergia a la penicilina..."
+                      rows="3"
+                      maxlength="500"
+                      style="min-height: 80px; resize: vertical;"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- ======================= STEP 4: Confirmation ======================= -->
+      <div id="step-4" class="booking-step">
+        <div>
+          <h1 class="step-title">Confirmar reserva</h1>
+          <p class="step-subtitle">Revisá los datos antes de confirmar</p>
+        </div>
+
+        <div class="confirmation-card">
+          <div class="confirmation-card-header">
+            <h3 class="confirmation-card-title">Resumen de tu turno</h3>
+            <p class="confirmation-card-subtitle">Verificá que la información sea correcta</p>
+          </div>
+
+          <div class="confirmation-details">
+            <!-- Event Type -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Tipo de Consulta</span>
+                <span id="confirm-event-name" class="confirmation-row-value"></span>
+                <span id="confirm-event-meta" class="form-hint"></span>
+              </div>
+            </div>
+
+            <!-- Date -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Fecha</span>
+                <span id="confirm-date" class="confirmation-row-value"></span>
+              </div>
+            </div>
+
+            <!-- Time -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Horario</span>
+                <span id="confirm-time" class="confirmation-row-value"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="confirmation-divider"></div>
+
+          <div class="confirmation-details">
+            <!-- Guest Name -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Paciente</span>
+                <span id="confirm-name" class="confirmation-row-value"></span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Correo</span>
+                <span id="confirm-email" class="confirmation-row-value"></span>
+              </div>
+            </div>
+
+            <!-- Extra info -->
+            <div class="confirmation-row">
+              <div class="confirmation-row-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </div>
+              <div class="confirmation-row-content">
+                <span class="confirmation-row-label">Información Adicional</span>
+                <span id="confirm-extra" class="confirmation-row-value" style="font-size: var(--font-size-sm); color: var(--color-text-secondary);"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================= SUCCESS SCREEN ======================= -->
+      <div id="success-screen" class="success-screen">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2 class="success-title">¡Turno confirmado!</h2>
+        <p class="success-message">
+          Tu reserva fue registrada exitosamente. Recibirás un correo de confirmación con los detalles de tu turno.
+        </p>
+        <div id="booking-ref-code" class="success-ref">Ref: ------</div>
+        <button class="btn btn-secondary" onclick="restartBooking()" style="margin-top: var(--space-4); min-height: 48px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          </svg>
+          Agendar otro turno
+        </button>
+      </div>
+
+      <!-- ======================= EXPIRED SCREEN ======================= -->
+      <div id="expired-screen" class="expired-screen">
+        <div class="expired-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h2 class="success-title">Sesión expirada</h2>
+        <p class="success-message">
+          El tiempo para completar tu reserva ha finalizado. El horario seleccionado fue liberado. Podés intentarlo nuevamente.
+        </p>
+        <button class="btn btn-primary" onclick="restartBooking()" style="margin-top: var(--space-4); min-height: 52px; min-width: 200px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          </svg>
+          Intentar nuevamente
+        </button>
+      </div>
+
+    </div><!-- /booking-content -->
+
+    <!-- ===== FOOTER (Sticky, Thumb-Friendly) ===== -->
+    <div id="booking-footer" class="booking-footer">
+      <button id="btn-back" class="btn btn-secondary" onclick="goBack()" style="display: none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Atrás
+      </button>
+      <button id="btn-test-booking-error" class="btn btn-danger" style="margin-left: auto; margin-right: var(--space-2);" aria-label="Probar Error de Reserva">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Error
+      </button>
+      <button id="btn-next" class="btn btn-primary" disabled>
+        Seleccionar Horario
+      </button>
+    </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div id="booking-toast-container" class="booking-toast-container"></div>
+
+  </div><!-- /booking-shell -->
+
+  <!-- ===== CONFIRM MODAL ===== -->
+  <div id="confirm-modal" class="modal-backdrop confirm-modal">
+    <div class="modal modal-sm">
+      <div class="modal-body">
+        <div class="confirm-icon-wrapper danger">
+          <!-- Dynamic icon -->
+        </div>
+        <h3 class="confirm-title">¿Estás seguro?</h3>
+        <p class="confirm-message">Esta acción no se puede deshacer.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-secondary" id="confirm-cancel-btn">Cancelar</button>
+          <button class="btn btn-danger" id="confirm-action-btn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/modal.js"></script>
+  <script src="js/booking.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Register modal
+      const confirmModal = document.getElementById('confirm-modal');
+      if (confirmModal && typeof ModalManager !== 'undefined') {
+        ModalManager.register('confirm-modal', confirmModal);
+      }
+      
+      // Setup error button
+      const errorBtn = document.getElementById('btn-test-booking-error');
+      if (errorBtn) {
+        errorBtn.addEventListener('click', () => {
+          if (typeof ConfirmDialog !== 'undefined') {
+            ConfirmDialog.show({
+              title: 'Error de Reserva',
+              message: 'Ese horario ya no se encuentra disponible o hubo un error de conexión. Por favor, intenta de nuevo.',
+              confirmText: 'Entendido',
+              cancelText: 'Cerrar',
+              type: 'danger'
+            });
+          }
+        });
+      }
+
+      // Sincronizar SOLO el color de acento con el index, forzando fondo blanco (light)
+      try {
+        const savedPrefs = localStorage.getItem('ics_theme_prefs');
+        if (savedPrefs) {
+          const prefs = JSON.parse(savedPrefs);
+          if (prefs.accent) {
+            document.documentElement.style.setProperty('--theme-accent', prefs.accent);
+            document.documentElement.style.setProperty('--color-primary-500', prefs.accent);
+          }
+        }
+      } catch (error) {
+        console.error("No se pudo cargar el color de acento", error);
+      }
+    });
+  </script>
+</body>
+</html>

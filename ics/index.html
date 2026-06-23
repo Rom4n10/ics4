@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sistema de Gestión de Tipos de Eventos - Panel de Administración Hospitalaria">
+  <title>Tipos de Evento | Gestión Hospitalaria</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Design System -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/table.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-icon">H</div>
+        <span class="sidebar-brand-text">HealthAdmin</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-title">Principal</span>
+
+        <a class="sidebar-nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="sidebar-nav-label">Dashboard</span>
+        </a>
+
+        <a class="sidebar-nav-item active" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="sidebar-nav-label">Tipos de Evento</span>
+        </a>
+
+        <a class="sidebar-nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="sidebar-nav-label">Pacientes</span>
+        </a>
+
+        <a class="sidebar-nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span class="sidebar-nav-label">Agenda</span>
+        </a>
+
+        <span class="sidebar-section-title">Configuración</span>
+
+        <a class="sidebar-nav-item" href="#">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span class="sidebar-nav-label">Ajustes</span>
+        </a>
+
+        <button class="sidebar-nav-item" id="btn-restart-tutorial">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span class="sidebar-nav-label">Ver Tutorial</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Colapsar menú">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-wrapper">
+      <!-- Header -->
+      <header class="main-header">
+        <div class="header-left">
+          <div class="header-breadcrumb">
+            <span>Gestión</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            <span class="current">Tipos de Evento</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <button class="header-icon-btn" id="btn-theme" title="Personalizar interfaz">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button class="header-icon-btn" title="Notificaciones">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notification-dot"></span>
+          </button>
+          <div class="header-user">
+            <div class="header-user-avatar">DM</div>
+            <div class="header-user-info">
+              <span class="header-user-name">Dr. Martínez</span>
+              <span class="header-user-role">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1 class="page-title">Tipos de Evento</h1>
+            <p class="page-subtitle">Administra los tipos de evento disponibles para la agenda médica</p>
+          </div>
+          <div class="page-actions" style="display: flex; gap: var(--space-2);">
+            <button class="btn btn-primary" id="btn-new-event">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nuevo Tipo de Evento
+            </button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div id="filters-panel" class="filters-panel">
+          <div class="filters-search">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="filter-search" class="form-input" placeholder="Buscar por nombre o descripción...">
+          </div>
+
+          <div class="filter-divider"></div>
+
+          <div class="filter-group">
+            <span class="filter-label">Estado</span>
+            <select id="filter-status" class="form-select">
+              <option value="all">Todos</option>
+              <option value="active">Activos</option>
+              <option value="inactive">Inactivos</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Duración</span>
+            <select id="filter-duration" class="form-select">
+              <option value="all">Todas</option>
+              <option value="15">15 min</option>
+              <option value="30">30 min</option>
+              <option value="45">45 min</option>
+              <option value="60">60 min</option>
+              <option value="custom">Personalizada</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <span class="filter-label">Desde</span>
+            <input type="date" id="filter-date-from" class="form-input" style="width: 150px;">
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Hasta</span>
+            <input type="date" id="filter-date-to" class="form-input" style="width: 150px;">
+          </div>
+        </div>
+
+        <!-- Results Bar -->
+        <div class="results-bar">
+          <span id="results-count" class="results-count"></span>
+          <div id="view-toggle" class="view-toggle">
+            <button class="view-toggle-btn active" data-view="table" title="Vista tabla">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+            <button class="view-toggle-btn" data-view="grid" title="Vista tarjetas">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Events Container (Table or Grid) -->
+        <div id="events-container"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== FORM MODAL (Create/Edit) ===== -->
+  <div id="form-modal" class="modal-backdrop form-modal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2 id="form-modal-title" class="modal-title">Nuevo Tipo de Evento</h2>
+        <button class="modal-close" onclick="ModalManager.close('form-modal')" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Section: Basic Info -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Información Básica
+          </h3>
+          <div class="form-group">
+            <label class="form-label" for="field-name">Nombre del tipo de evento <span class="required">*</span></label>
+            <input type="text" id="field-name" class="form-input" placeholder="Ej: Consulta Médica General" maxlength="80" autocomplete="off">
+            <span class="form-hint">Nombre único que identifica este tipo de evento en la agenda</span>
+          </div>
+        </div>
+
+        <!-- Section: Duration -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Duración Estimada <span class="required" style="color: var(--color-danger-400);">*</span>
+          </h3>
+          <div class="duration-selector">
+            <button class="duration-pill" data-duration="15">15 min</button>
+            <button class="duration-pill" data-duration="30">30 min</button>
+            <button class="duration-pill" data-duration="45">45 min</button>
+            <button class="duration-pill" data-duration="60">1 hora</button>
+            <button class="duration-pill" data-duration="custom">⏱ Personalizada</button>
+          </div>
+          <div id="custom-duration-group" class="duration-custom-input">
+            <input type="number" id="custom-duration-input" class="form-input" min="5" max="480" step="5" placeholder="Min">
+            <span class="text-sm text-secondary">minutos</span>
+          </div>
+        </div>
+
+        <!-- Section: Modality -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Modalidad <span class="required" style="color: var(--color-danger-400);">*</span>
+          </h3>
+          <div class="modality-selector">
+            <button class="modality-card" data-modality="presencial">
+              <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              <span class="modality-label">Presencial</span>
+            </button>
+            <button class="modality-card" data-modality="virtual">
+              <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <span class="modality-label">Virtual</span>
+            </button>
+            <button class="modality-card" data-modality="ambas">
+              <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <span class="modality-label">Ambas</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section: Confirmation -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Tipo de Confirmación
+          </h3>
+          <div class="toggle-wrapper">
+            <label class="toggle">
+              <input type="checkbox" id="confirmation-toggle">
+              <span class="toggle-track"></span>
+            </label>
+            <span id="confirmation-label" class="toggle-label">Confirmación Automática</span>
+          </div>
+          <span class="form-hint">Automática: el turno se confirma al agendarse. Manual: requiere confirmación del personal.</span>
+        </div>
+
+        <!-- Section: Description -->
+        <div class="form-section">
+          <h3 class="form-section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Descripción Pública
+            <span class="text-xs text-tertiary font-medium" style="margin-left: auto;">Opcional</span>
+          </h3>
+          <div class="form-group">
+            <textarea id="field-description" class="form-textarea" placeholder="Describe este tipo de evento para los pacientes..." rows="3"></textarea>
+          </div>
+          <!-- Upload Zone -->
+          <div id="upload-zone" class="upload-zone">
+            <svg class="upload-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span class="upload-zone-text">Arrastra archivos o haz clic para subir</span>
+            <span class="upload-zone-hint">JPG, PNG o MP4 · Max 10MB</span>
+          </div>
+          <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.mp4" multiple>
+          <div id="upload-preview" class="upload-preview"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="modal-footer-left">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+          <span>Guardar con <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">S</kbd></span>
+        </div>
+        <button class="btn btn-secondary" onclick="ModalManager.close('form-modal')">Cancelar</button>
+        <button class="btn btn-primary" id="form-submit-btn">Crear Tipo de Evento</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONFIRM MODAL ===== -->
+  <div id="confirm-modal" class="modal-backdrop confirm-modal">
+    <div class="modal modal-sm">
+      <div class="modal-body">
+        <div class="confirm-icon-wrapper danger">
+          <!-- Dynamic icon -->
+        </div>
+        <h3 class="confirm-title">¿Estás seguro?</h3>
+        <p class="confirm-message">Esta acción no se puede deshacer.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-secondary" id="confirm-cancel-btn">Cancelar</button>
+          <button class="btn btn-danger" id="confirm-action-btn">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TUTORIAL OVERLAY ===== -->
+  <div id="tutorial-overlay" class="tutorial-overlay">
+    <div class="tutorial-backdrop"></div>
+    <div id="tutorial-spotlight" class="tutorial-spotlight"></div>
+    <div id="tutorial-tooltip" class="tutorial-tooltip">
+      <span class="tutorial-tooltip-step">Paso 1 de 4</span>
+      <h4 class="tutorial-tooltip-title">Título del paso</h4>
+      <p class="tutorial-tooltip-desc">Descripción del paso</p>
+      <div class="tutorial-tooltip-progress"></div>
+      <div class="tutorial-tooltip-actions">
+        <button class="tutorial-skip" id="tutorial-skip">Saltar</button>
+        <div class="tutorial-nav-btns">
+          <button class="btn btn-secondary btn-sm" id="tutorial-prev">Anterior</button>
+          <button class="btn btn-primary btn-sm" id="tutorial-next">Siguiente</button>
+        </div>
+      </div>
+      <div class="tutorial-no-show">
+        <input type="checkbox" id="tutorial-no-show-check">
+        <label for="tutorial-no-show-check">No volver a mostrar</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== THEME PANEL ===== -->
+  <div id="theme-panel" class="theme-panel">
+    <div class="theme-panel-header">
+      <h3 class="theme-panel-title">Personalizar</h3>
+      <button class="modal-close" id="theme-panel-close" aria-label="Cerrar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="theme-panel-body">
+      <!-- Theme Mode -->
+      <div class="theme-section">
+        <span class="theme-section-label">Apariencia</span>
+        <div class="theme-mode-selector">
+          <button class="theme-mode-btn" data-mode="light">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Claro
+          </button>
+          <button class="theme-mode-btn active" data-mode="dark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Oscuro
+          </button>
+          <button class="theme-mode-btn" data-mode="auto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Auto
+          </button>
+        </div>
+      </div>
+
+      <!-- Accent Color -->
+      <div class="theme-section">
+        <span class="theme-section-label">Color de Acento</span>
+        <div class="color-picker-group">
+          <button class="color-swatch active" data-color="#3b82f6" style="background: #3b82f6;" title="Azul"></button>
+          <button class="color-swatch" data-color="#06b6d4" style="background: #06b6d4;" title="Cyan"></button>
+          <button class="color-swatch" data-color="#8b5cf6" style="background: #8b5cf6;" title="Violeta"></button>
+          <button class="color-swatch" data-color="#ec4899" style="background: #ec4899;" title="Rosa"></button>
+          <button class="color-swatch" data-color="#10b981" style="background: #10b981;" title="Verde"></button>
+          <button class="color-swatch" data-color="#f59e0b" style="background: #f59e0b;" title="Ámbar"></button>
+          <button class="color-swatch" data-color="#ef4444" style="background: #ef4444;" title="Rojo"></button>
+          <button class="color-swatch" data-color="#6366f1" style="background: #6366f1;" title="Índigo"></button>
+        </div>
+      </div>
+
+      <!-- Density -->
+      <div class="theme-section">
+        <span class="theme-section-label">Densidad</span>
+        <div class="density-selector">
+          <button class="density-btn" data-density="compact">Compacta</button>
+          <button class="density-btn active" data-density="normal">Normal</button>
+          <button class="density-btn" data-density="spacious">Espaciada</button>
+        </div>
+      </div>
+
+      <!-- Shortcuts -->
+      <div class="theme-section">
+        <span class="theme-section-label">Atajos de Teclado</span>
+        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-sm text-secondary">Nuevo evento</span>
+            <span><kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">N</kbd></span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-sm text-secondary">Guardar</span>
+            <span><kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">S</kbd></span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-sm text-secondary">Buscar</span>
+            <span><kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">F</kbd></span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="text-sm text-secondary">Cerrar modal</span>
+            <span><kbd class="kbd">Esc</kbd></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/data.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/tutorial.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/shortcuts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
