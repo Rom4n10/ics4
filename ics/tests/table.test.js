@@ -89,12 +89,12 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 5: ADMINISTRACIÓN Y FILTROS
+  //  INTEGRANTE 5: ADMINISTRACIÓN Y FILTROS
   // ============================================
   describe('Integrante 5: Filtros del Panel de Administración', () => {
     it('Prueba 13: Búsqueda de eventos por texto debe filtrar filas coincidentes', () => {
       const searchInput = document.getElementById('filter-search');
-      
+
       // Escribir en el campo de búsqueda
       searchInput.value = 'médica';
       searchInput.dispatchEvent(new Event('input'));
@@ -114,7 +114,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
 
     it('Prueba 14: Filtro de estado debe visualizar solo los eventos que coincidan', () => {
       const statusSelect = document.getElementById('filter-status');
-      
+
       // Filtrar por inactivos
       statusSelect.value = 'inactive';
       statusSelect.dispatchEvent(new Event('change'));

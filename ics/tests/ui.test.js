@@ -36,10 +36,10 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 6: PERSONALIZACIÓN Y CONTROL DEL DOM
+  //  INTEGRANTE 6: PERSONALIZACIÓN Y CONTROL DEL DOM
   // ============================================
   describe('Integrante 6: Temas, Modales y Notificaciones', () => {
-    
+
     // Prueba 16: Guardado de preferencias de tema
     it('Prueba 16: ThemeModule debe aplicar el tema y guardar las preferencias en localStorage', () => {
       window.ThemeModule.init();
@@ -61,7 +61,7 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
     // Prueba 17: Apertura y cierre de modales
     it('Prueba 17: ModalManager debe registrar, abrir y cerrar modales manipulando la clase open', () => {
       const modalElement = document.getElementById('my-modal');
-      
+
       // Registrar modal
       window.ModalManager.register('my-modal', modalElement);
       expect(window.ModalManager.isOpen('my-modal')).toBe(false);
@@ -91,7 +91,7 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
       expect(toastContainer.children.length).toBe(1);
       const toastElement = toastContainer.querySelector('.toast');
       expect(toastElement.classList.contains('toast-success')).toBe(true);
-      
+
       const msgElement = toastElement.querySelector('.toast-message');
       expect(msgElement.textContent).toBe('Operación completada');
     });

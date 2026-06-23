@@ -64,7 +64,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 1: GESTIÓN DE HORARIOS Y FECHAS
+  //  INTEGRANTE 1: GESTIÓN DE HORARIOS Y FECHAS
   // ============================================
   describe('Integrante 1: Utilidades de fecha y hora', () => {
     it('Prueba 1: formatDateKey debe formatear una fecha como YYYY-MM-DD', () => {
@@ -90,7 +90,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 2: VALIDACIÓN DE DATOS DEL PACIENTE
+  //  INTEGRANTE 2: VALIDACIÓN DE DATOS DEL PACIENTE
   // ============================================
   describe('Integrante 2: Validación de formulario', () => {
     it('Prueba 4: isFormValid debe retornar false si los campos obligatorios están vacíos', () => {
@@ -123,7 +123,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 3: REGLAS DE NEGOCIO DE LA AGENDA
+  //  INTEGRANTE 3: REGLAS DE NEGOCIO DE LA AGENDA
   // ============================================
   describe('Integrante 3: Reglas de agenda y bloqueo de fechas', () => {
     it('Prueba 7: isDateBlocked debe retornar true para domingos o fechas feriadas', () => {
@@ -179,7 +179,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   });
 
   // ============================================
-  // 🧑‍💻 INTEGRANTE 4: SUGERENCIAS Y SOLAPAMIENTOS
+  //  INTEGRANTE 4: SUGERENCIAS Y SOLAPAMIENTOS
   // ============================================
   describe('Integrante 4: Turnos alternativos y solapamientos', () => {
     it('Prueba 10: generateTimeSlots debe excluir horarios ocupados y evitar solapamientos', () => {
