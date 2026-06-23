@@ -1,17 +1,24 @@
 # Dependencias
 node_modules/
+ics/node_modules/
 /dist/
+/ics/dist/
 /.next/
+/ics/.next/
 /out/
+/ics/out/
 /build/
+/ics/build/
 
 # Logs y Reportes
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 lerna-debug.log*
 coverage/
+ics/coverage/
 .nyc_output/
 
 # Configuración de Entorno / Secretos
@@ -21,10 +28,13 @@ coverage/
 .env.test.local
 .env.production.local
 .env*.local
+ics/.env*
 
 # IDEs / Editores
 .vscode/
+ics/.vscode/
 .idea/
+ics/.idea/
 *.suo
 *.ntvs*
 *.njsproj
@@ -36,7 +46,6 @@ coverage/
 Thumbs.db
 
 # --- PIPELINE DE CI/CD ---
-# Asegurar explícitamente que NO se ignore la carpeta de workflows ni el pipeline de GitHub Actions
 !.github/
 !.github/workflows/
 !.github/workflows/*

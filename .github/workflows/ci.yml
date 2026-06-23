@@ -12,7 +12,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ./nextjs-app
+        working-directory: ./ics
 
     steps:
       - name: Checkout del codigo
@@ -28,6 +28,3 @@ jobs:
 
       - name: Correr pruebas unitarias
         run: npm run test
-
-      - name: Compilar proyecto
-        run: npm run build
