@@ -57,8 +57,10 @@ const TableModule = (() => {
 
     if (currentView === 'table') {
       renderTable(data);
-    } else {
+    } else if (currentView === 'grid') {
       renderGrid(data);
+    } else if (currentView === 'kanban') {
+      renderKanban(data);
     }
   }
 
@@ -196,6 +198,41 @@ const TableModule = (() => {
         </div>
       </div>
     `;
+  }
+
+  function renderKanban(data) {
+    const container = document.getElementById('events-container');
+    if (data.length === 0) {
+      container.innerHTML = renderEmptyState();
+      return;
+    }
+
+    const activeEvents = data.filter(e => e.status === 'active');
+    const inactiveEvents = data.filter(e => e.status === 'inactive');
+
+    container.innerHTML = `
+      <div class="kanban-board stagger-children">
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3 class="kanban-column-title">Activos</h3>
+            <span class="kanban-column-count">${activeEvents.length}</span>
+          </div>
+          <div class="kanban-column-content">
+            ${activeEvents.map(event => renderGridCard(event)).join('')}
+          </div>
+        </div>
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3 class="kanban-column-title">Inactivos</h3>
+            <span class="kanban-column-count">${inactiveEvents.length}</span>
+          </div>
+          <div class="kanban-column-content">
+            ${inactiveEvents.map(event => renderGridCard(event)).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+    bindRowActions();
   }
 
   function renderEmptyState() {
