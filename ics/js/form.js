@@ -34,6 +34,7 @@ const FormModule = (() => {
     // Populate fields
     document.getElementById('field-name').value = event.name;
     document.getElementById('field-description').value = event.description || '';
+    updateDescriptionCounter();
 
     // Duration
     if (DURATION_PRESETS.includes(event.duration)) {
@@ -59,6 +60,7 @@ const FormModule = (() => {
     // Populate with source data but new name
     document.getElementById('field-name').value = `${event.name} (Copia)`;
     document.getElementById('field-description').value = event.description || '';
+    updateDescriptionCounter();
 
     if (DURATION_PRESETS.includes(event.duration)) {
       selectDuration(event.duration);
@@ -84,6 +86,7 @@ const FormModule = (() => {
     const descField = document.getElementById('field-description');
     if (nameField) nameField.value = '';
     if (descField) descField.value = '';
+    updateDescriptionCounter();
 
     clearDurationSelection();
     clearModalitySelection();
@@ -93,6 +96,9 @@ const FormModule = (() => {
     updateUploadPreview();
   }
 
+  /** Constante: límite máximo de caracteres para la descripción */
+  const DESCRIPTION_MAX_LENGTH = 500;
+
   function init() {
     bindDurationPills();
     bindModalityCards();
@@ -100,6 +106,39 @@ const FormModule = (() => {
     bindSubmit();
     bindNameValidation();
     bindUploadZone();
+    bindDescriptionCounter();
+  }
+
+  /**
+   * Vincula el evento input del textarea de descripción
+   * para actualizar el contador de caracteres en tiempo real.
+   */
+  function bindDescriptionCounter() {
+    const descField = document.getElementById('field-description');
+    if (descField) {
+      descField.addEventListener('input', updateDescriptionCounter);
+    }
+  }
+
+  /**
+   * Actualiza el contador visual de caracteres y aplica
+   * clases CSS de advertencia según la proximidad al límite.
+   */
+  function updateDescriptionCounter() {
+    const descField = document.getElementById('field-description');
+    const counterEl = document.getElementById('desc-char-count');
+    const counterContainer = document.getElementById('desc-char-counter');
+    if (!descField || !counterEl || !counterContainer) return;
+
+    const currentLength = descField.value.length;
+    counterEl.textContent = currentLength;
+
+    counterContainer.classList.remove('warning', 'limit');
+    if (currentLength >= DESCRIPTION_MAX_LENGTH) {
+      counterContainer.classList.add('limit');
+    } else if (currentLength >= DESCRIPTION_MAX_LENGTH * 0.9) {
+      counterContainer.classList.add('warning');
+    }
   }
 
   /* --- Duration --- */
@@ -333,6 +372,12 @@ const FormModule = (() => {
         showFieldError('field-name', 'Ya existe un tipo de evento con este nombre');
         valid = false;
       }
+    }
+
+    const descValue = document.getElementById('field-description').value.trim();
+    if (descValue.length > DESCRIPTION_MAX_LENGTH) {
+      showFieldError('field-description', `La descripción no puede superar los ${DESCRIPTION_MAX_LENGTH} caracteres`);
+      valid = false;
     }
 
     if (!selectedDuration || selectedDuration <= 0) {

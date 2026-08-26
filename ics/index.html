@@ -383,7 +383,10 @@
           </h3>
           <div class="form-group">
             <textarea id="field-description" class="form-textarea"
-              placeholder="Describe este tipo de evento para los pacientes..." rows="3"></textarea>
+              placeholder="Describe este tipo de evento para los pacientes..." rows="3" maxlength="500"></textarea>
+            <div class="form-char-counter" id="desc-char-counter">
+              <span id="desc-char-count">0</span> / 500 caracteres
+            </div>
           </div>
           <!-- Upload Zone -->
           <div id="upload-zone" class="upload-zone">

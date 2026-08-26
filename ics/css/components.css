@@ -233,6 +233,25 @@
   resize: vertical;
 }
 
+.form-char-counter {
+  display: flex;
+  justify-content: flex-end;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-1);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.2s ease;
+}
+
+.form-char-counter.warning {
+  color: var(--color-warning, #f59e0b);
+}
+
+.form-char-counter.limit {
+  color: var(--color-error, #ef4444);
+  font-weight: var(--font-weight-semibold);
+}
+
 .form-hint {
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
