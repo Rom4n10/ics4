@@ -346,6 +346,7 @@ const TableModule = (() => {
             onConfirm: () => {
               event.status = 'inactive';
               event.updatedAt = new Date().toISOString();
+              persistEventTypes();
               render();
               Toast.show('baja confirmada', 'success');
             }
@@ -353,6 +354,7 @@ const TableModule = (() => {
         } else {
           event.status = 'active';
           event.updatedAt = new Date().toISOString();
+          persistEventTypes();
           render();
           Toast.show(`"${event.name}" reactivado correctamente`, 'success');
         }

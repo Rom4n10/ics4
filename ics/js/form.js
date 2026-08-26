@@ -434,6 +434,7 @@ const FormModule = (() => {
     }
 
     ModalManager.close('form-modal');
+    persistEventTypes();
     TableModule.render();
   }
 

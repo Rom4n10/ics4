@@ -28,45 +28,62 @@ const MONTH_NAMES = [
 const DAY_NAMES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 /** ==========================================
- *  EVENT TYPES (From M03)
+ *  EVENT TYPES (Sincronizado desde el Admin vía localStorage)
  *  ========================================== */
-const BOOKING_EVENT_TYPES = [
-  {
-    id: 'evt-001', name: 'Consulta General',
-    description: 'Evaluación de síntomas y seguimiento.',
-    duration: 30, modality: 'presencial', icon: '🏥'
-  },
-  {
-    id: 'evt-002', name: 'Teleconsulta',
-    description: 'Consulta virtual por videollamada.',
-    duration: 15, modality: 'virtual', icon: '💻'
-  },
-  {
-    id: 'evt-003', name: 'Cirugía Programada',
-    description: 'Intervención quirúrgica programada.',
-    duration: 60, modality: 'presencial', icon: '⚕️'
-  },
-  {
-    id: 'evt-004', name: 'Control Post-quirúrgico',
-    description: 'Seguimiento posterior a cirugía.',
-    duration: 30, modality: 'ambas', icon: '📋'
-  },
-  {
-    id: 'evt-005', name: 'Evaluación Psicológica',
-    description: 'Sesión de salud mental.',
-    duration: 45, modality: 'virtual', icon: '🧠'
-  },
-  {
-    id: 'evt-006', name: 'Terapia Física',
-    description: 'Rehabilitación y ejercicios supervisados.',
-    duration: 45, modality: 'presencial', icon: '🦿'
-  },
-  {
-    id: 'evt-009', name: 'Vacunación',
-    description: 'Aplicación de vacunas.',
-    duration: 15, modality: 'presencial', icon: '💉'
+const EVENT_TYPES_STORAGE_KEY = 'ics_event_types';
+
+/**
+ * Mapa de iconos por modalidad para asignar automáticamente
+ * a cada tipo de evento cargado desde el admin.
+ */
+const MODALITY_ICON_MAP = {
+  presencial: '🏥',
+  virtual: '💻',
+  ambas: '🔄',
+};
+
+/**
+ * Carga los tipos de evento activos desde localStorage.
+ * Si no hay datos persistidos por el admin, usa EVENT_TYPES_DATA
+ * como fallback (cargado desde data.js).
+ * @returns {Array} Tipos de evento activos con iconos asignados.
+ */
+function loadBookingEventTypes() {
+  let rawEvents = [];
+
+  try {
+    const saved = localStorage.getItem(EVENT_TYPES_STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        rawEvents = parsed;
+      }
+    }
+  } catch (error) {
+    console.error('Error al cargar tipos de evento para booking:', error);
   }
-];
+
+  // Fallback a datos por defecto si no hay nada en localStorage
+  if (rawEvents.length === 0 && typeof EVENT_TYPES_DATA !== 'undefined') {
+    rawEvents = [...EVENT_TYPES_DATA];
+  }
+
+  // Filtrar solo eventos activos y mapear al formato de booking
+  return rawEvents
+    .filter(evt => evt.status === 'active')
+    .map(evt => ({
+      id: evt.id,
+      name: evt.name,
+      description: evt.description || '',
+      duration: evt.duration,
+      modality: evt.modality,
+      confirmation: evt.confirmation || 'auto',
+      icon: MODALITY_ICON_MAP[evt.modality] || '📋',
+    }));
+}
+
+/** Tipos de evento cargados dinámicamente al iniciar */
+let BOOKING_EVENT_TYPES = loadBookingEventTypes();
 
 /** ==========================================
  *  MOCK BOOKED SLOTS (Simulate occupied)
@@ -708,6 +725,9 @@ function expireSession() {
 }
 
 function restartBooking() {
+  // Recargar tipos de evento (pueden haber cambiado en el admin)
+  BOOKING_EVENT_TYPES = loadBookingEventTypes();
+
   // Reset state
   BookingState.currentStep = 1;
   BookingState.selectedEventType = null;
