@@ -63,9 +63,12 @@ function loadBookingEventTypes() {
     console.error('Error al cargar tipos de evento para booking:', error);
   }
 
-  // Fallback a datos por defecto si no hay nada en localStorage
-  if (rawEvents.length === 0 && typeof EVENT_TYPES_DATA !== 'undefined') {
-    rawEvents = [...EVENT_TYPES_DATA];
+  // Fallback a los datos de data.js y, si ese script no está disponible,
+  // al catálogo por defecto propio de este módulo.
+  if (rawEvents.length === 0) {
+    rawEvents = typeof EVENT_TYPES_DATA !== 'undefined'
+      ? [...EVENT_TYPES_DATA]
+      : [...BOOKING_DEFAULT_EVENT_TYPES];
   }
 
   // Filtrar solo eventos activos y mapear al formato de booking
@@ -81,6 +84,23 @@ function loadBookingEventTypes() {
       icon: MODALITY_ICON_MAP[evt.modality] || '📋',
     }));
 }
+
+/**
+ * Catálogo por defecto de tipos de evento.
+ * Se usa cuando booking.js se ejecuta sin `data.js` disponible
+ * (por ejemplo en las pruebas unitarias, o si ese script no llegó a cargarse)
+ * y tampoco hay tipos persistidos por el admin en localStorage.
+ */
+const BOOKING_DEFAULT_EVENT_TYPES = [
+  { id: 'evt-001', name: 'Consulta General', description: 'Consulta médica general para evaluación de síntomas, revisión de historial clínico y seguimiento de tratamientos.', duration: 30, modality: 'presencial', confirmation: 'auto', status: 'active' },
+  { id: 'evt-002', name: 'Teleconsulta', description: 'Consulta médica virtual a través de videollamada para seguimiento de pacientes remotos.', duration: 15, modality: 'virtual', confirmation: 'auto', status: 'active' },
+  { id: 'evt-003', name: 'Cirugía Programada', description: 'Intervención quirúrgica programada que requiere preparación previa y confirmación del equipo médico.', duration: 60, modality: 'presencial', confirmation: 'manual', status: 'active' },
+  { id: 'evt-004', name: 'Control Post-quirúrgico', description: 'Seguimiento médico posterior a una intervención para evaluar la evolución del paciente.', duration: 30, modality: 'ambas', confirmation: 'auto', status: 'active' },
+  { id: 'evt-005', name: 'Evaluación Psicológica', description: 'Sesión de evaluación psicológica para diagnóstico o seguimiento de salud mental del paciente.', duration: 45, modality: 'virtual', confirmation: 'manual', status: 'active' },
+  { id: 'evt-006', name: 'Terapia Física', description: 'Sesión de rehabilitación física con ejercicios supervisados y seguimiento de progreso.', duration: 45, modality: 'presencial', confirmation: 'auto', status: 'active' },
+  { id: 'evt-007', name: 'Consulta de Emergencia', description: 'Atención médica de urgencia para casos que requieren evaluación inmediata.', duration: 15, modality: 'presencial', confirmation: 'manual', status: 'active' },
+  { id: 'evt-009', name: 'Vacunación', description: 'Aplicación de vacunas según calendario de vacunación o solicitud individual del paciente.', duration: 15, modality: 'presencial', confirmation: 'auto', status: 'active' },
+];
 
 /** Tipos de evento cargados dinámicamente al iniciar */
 let BOOKING_EVENT_TYPES = loadBookingEventTypes();
