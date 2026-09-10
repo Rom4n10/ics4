@@ -154,6 +154,7 @@ function initBooking() {
   renderStep1();
   setupIdleDetection();
   setupFormValidation();
+  updateFooterButtons();
 }
 
 /** ==========================================
@@ -262,6 +263,7 @@ function renderEventTypes() {
     const isSelected = BookingState.selectedEventType?.id === evt.id;
     return `
       <button class="event-type-card ${isSelected ? 'selected' : ''}"
+              data-cy="event-type-card"
               data-event-id="${evt.id}"
               onclick="selectEventType('${evt.id}')"
               aria-label="Seleccionar ${evt.name}">
@@ -344,6 +346,7 @@ function renderCalendar() {
 
     html += `
       <button class="${classes}" ${isPast || isBlocked ? 'disabled' : ''}
+              data-cy="calendar-day" data-date="${dateStr}"
               onclick="selectDate('${dateStr}')"
               aria-label="${day} de ${MONTH_NAMES[calendarMonth]}">
         ${day}
@@ -500,6 +503,7 @@ function renderTimeSlots(container, slots) {
 
     html += `
       <button class="${cls}"
+              data-cy="time-slot" data-time="${slot.time}"
               ${!slot.available || slot.locked ? 'disabled' : ''}
               onclick="selectTimeSlot('${slot.time}')"
               aria-label="Horario ${timeDisplay.time} ${timeDisplay.period}">
@@ -534,7 +538,7 @@ function renderNoSlots(container) {
   let suggestionsHtml = '';
   if (suggestions.length > 0) {
     suggestionsHtml = `
-      <div class="suggestions-panel">
+      <div class="suggestions-panel" data-cy="suggestions-panel">
         <div class="suggestions-header">
           <svg class="suggestions-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
@@ -544,7 +548,7 @@ function renderNoSlots(container) {
         <p class="suggestions-text">No hay disponibilidad en la fecha seleccionada. Te sugerimos estos horarios cercanos:</p>
         <div class="suggestions-list">
           ${suggestions.map(s => `
-            <button class="suggestion-item" onclick="selectSuggestion('${s.date}', '${s.time}')">
+            <button class="suggestion-item" data-cy="suggestion-item" onclick="selectSuggestion('${s.date}', '${s.time}')">
               <div class="suggestion-info">
                 <span class="suggestion-date">${s.displayDate}</span>
                 <span class="suggestion-time">${s.displayTime} · ${BookingState.selectedEventType.name}</span>
@@ -560,7 +564,7 @@ function renderNoSlots(container) {
   }
 
   container.innerHTML = `
-    <div class="no-slots">
+    <div class="no-slots" data-cy="no-slots">
       <svg class="no-slots-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
         <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
@@ -912,13 +916,13 @@ function setupFormValidation() {
 
 function validateField(input, isValid) {
   input.classList.remove('error', 'form-input-valid');
-  if (input.value.trim() === '') return;
-  input.classList.add(isValid ? 'form-input-valid' : 'error');
+  const isEmpty = input.value.trim() === '';
+  if (!isEmpty) input.classList.add(isValid ? 'form-input-valid' : 'error');
 
-  // Error message
-  const errorEl = input.parentElement.querySelector('.form-error');
+  // Error message (el span es hermano del wrapper del input, no del input)
+  const errorEl = input.closest('.form-group')?.querySelector('.form-error');
   if (errorEl) {
-    errorEl.style.display = isValid ? 'none' : 'flex';
+    errorEl.style.display = isEmpty || isValid ? 'none' : 'flex';
   }
 }
 
@@ -958,7 +962,7 @@ function renderStep4() {
 
 function confirmBooking() {
   // Show loading
-  const btn = getEl('btn-confirm-booking');
+  const btn = getEl('btn-next');
   if (btn) {
     btn.disabled = true;
     btn.innerHTML = '<span class="slots-loading-spinner" style="width:20px;height:20px;border-width:2px;"></span> Confirmando...';
@@ -1072,7 +1076,7 @@ function updateFooterButtons() {
           if (nameInput) {
             nameInput.classList.add('error');
             nameInput.classList.remove('form-input-valid');
-            const errorEl = nameInput.parentElement.querySelector('.form-error');
+            const errorEl = nameInput.closest('.form-group')?.querySelector('.form-error');
             if (errorEl) errorEl.style.display = 'flex';
             nameInput.focus();
           }
@@ -1106,7 +1110,7 @@ function updateFooterButtons() {
           if (emailInput) {
             emailInput.classList.add('error');
             emailInput.classList.remove('form-input-valid');
-            const errorEl = emailInput.parentElement.querySelector('.form-error');
+            const errorEl = emailInput.closest('.form-group')?.querySelector('.form-error');
             if (errorEl) errorEl.style.display = 'flex';
             emailInput.focus();
           }
@@ -1138,7 +1142,6 @@ function updateFooterButtons() {
     case 4:
       nextBtn.disabled = false;
       nextBtn.textContent = 'Confirmar Reserva';
-      nextBtn.id = 'btn-confirm-booking';
       nextBtn.onclick = confirmBooking;
       nextBtn.className = 'btn btn-success';
       break;
@@ -1179,6 +1182,7 @@ function showToast(type, message) {
 
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
+  toast.setAttribute('data-cy', `toast-${type}`);
   toast.innerHTML = `
     <span class="toast-icon">${iconMap[type] || iconMap.info}</span>
     <span class="toast-message">${message}</span>

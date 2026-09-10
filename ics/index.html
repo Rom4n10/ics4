@@ -35,7 +35,7 @@
       <nav class="sidebar-nav">
         <span class="sidebar-section-title">Principal</span>
 
-        <a class="sidebar-nav-item" href="#">
+        <a class="sidebar-nav-item" href="#" data-cy="nav-dashboard">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="3" width="7" height="7" />
@@ -46,7 +46,7 @@
           <span class="sidebar-nav-label">Dashboard</span>
         </a>
 
-        <a class="sidebar-nav-item active" href="#">
+        <a class="sidebar-nav-item active" href="#" data-cy="nav-event-types">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -57,7 +57,7 @@
           <span class="sidebar-nav-label">Tipos de Evento</span>
         </a>
 
-        <a class="sidebar-nav-item" href="#">
+        <a class="sidebar-nav-item" href="#" data-cy="nav-patients">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -68,7 +68,7 @@
           <span class="sidebar-nav-label">Pacientes</span>
         </a>
 
-        <a class="sidebar-nav-item" href="#">
+        <a class="sidebar-nav-item" href="#" data-cy="nav-agenda">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
@@ -78,7 +78,7 @@
 
         <span class="sidebar-section-title">Configuración</span>
 
-        <a class="sidebar-nav-item" href="#">
+        <a class="sidebar-nav-item" href="#" data-cy="nav-settings">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3" />
@@ -88,7 +88,7 @@
           <span class="sidebar-nav-label">Ajustes</span>
         </a>
 
-        <button class="sidebar-nav-item" id="btn-restart-tutorial">
+        <button class="sidebar-nav-item" id="btn-restart-tutorial" data-cy="btn-restart-tutorial">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
@@ -100,7 +100,7 @@
       </nav>
 
       <div class="sidebar-footer">
-        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Colapsar menú">
+        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Colapsar menú" data-cy="sidebar-toggle">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6" />
@@ -123,7 +123,7 @@
           </div>
         </div>
         <div class="header-right">
-          <button class="header-icon-btn" id="btn-theme" title="Personalizar interfaz">
+          <button class="header-icon-btn" id="btn-theme" title="Personalizar interfaz" data-cy="btn-theme">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="5" />
@@ -137,7 +137,7 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
           </button>
-          <button class="header-icon-btn" title="Notificaciones">
+          <button class="header-icon-btn" title="Notificaciones" data-cy="btn-notifications">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -163,7 +163,7 @@
             <p class="page-subtitle">Administra los tipos de evento disponibles para la agenda médica</p>
           </div>
           <div class="page-actions" style="display: flex; gap: var(--space-2);">
-            <button class="btn btn-primary" id="btn-new-event">
+            <button class="btn btn-primary" id="btn-new-event" data-cy="btn-new-event">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -182,14 +182,14 @@
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-            <input type="text" id="filter-search" class="form-input" placeholder="Buscar por nombre o descripción...">
+            <input type="text" id="filter-search" class="form-input" placeholder="Buscar por nombre o descripción..." data-cy="filter-search">
           </div>
 
           <div class="filter-divider"></div>
 
           <div class="filter-group">
             <span class="filter-label">Estado</span>
-            <select id="filter-status" class="form-select">
+            <select id="filter-status" class="form-select" data-cy="filter-status">
               <option value="all">Todos</option>
               <option value="active">Activos</option>
               <option value="inactive">Inactivos</option>
@@ -198,7 +198,7 @@
 
           <div class="filter-group">
             <span class="filter-label">Duración</span>
-            <select id="filter-duration" class="form-select">
+            <select id="filter-duration" class="form-select" data-cy="filter-duration">
               <option value="all">Todas</option>
               <option value="15">15 min</option>
               <option value="30">30 min</option>
@@ -210,19 +210,19 @@
 
           <div class="filter-group">
             <span class="filter-label">Desde</span>
-            <input type="date" id="filter-date-from" class="form-input" style="width: 150px;">
+            <input type="date" id="filter-date-from" class="form-input" style="width: 150px;" data-cy="filter-date-from">
           </div>
           <div class="filter-group">
             <span class="filter-label">Hasta</span>
-            <input type="date" id="filter-date-to" class="form-input" style="width: 150px;">
+            <input type="date" id="filter-date-to" class="form-input" style="width: 150px;" data-cy="filter-date-to">
           </div>
         </div>
 
         <!-- Results Bar -->
         <div class="results-bar">
-          <span id="results-count" class="results-count"></span>
+          <span id="results-count" class="results-count" data-cy="results-count"></span>
           <div id="view-toggle" class="view-toggle">
-            <button class="view-toggle-btn active" data-view="table" title="Vista tabla">
+            <button class="view-toggle-btn active" data-view="table" title="Vista tabla" data-cy="view-table">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="8" y1="6" x2="21" y2="6" />
                 <line x1="8" y1="12" x2="21" y2="12" />
@@ -232,7 +232,7 @@
                 <line x1="3" y1="18" x2="3.01" y2="18" />
               </svg>
             </button>
-            <button class="view-toggle-btn" data-view="grid" title="Vista tarjetas">
+            <button class="view-toggle-btn" data-view="grid" title="Vista tarjetas" data-cy="view-grid">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="7" height="7" />
                 <rect x="14" y="3" width="7" height="7" />
@@ -240,7 +240,7 @@
                 <rect x="3" y="14" width="7" height="7" />
               </svg>
             </button>
-            <button class="view-toggle-btn" data-view="kanban" title="Vista Kanban">
+            <button class="view-toggle-btn" data-view="kanban" title="Vista Kanban" data-cy="view-kanban">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="3" y="3" width="5" height="18" rx="1" />
                 <rect x="10" y="3" width="5" height="12" rx="1" />
@@ -251,17 +251,17 @@
         </div>
 
         <!-- Events Container (Table or Grid) -->
-        <div id="events-container"></div>
+        <div id="events-container" data-cy="events-container"></div>
       </main>
     </div>
   </div>
 
   <!-- ===== FORM MODAL (Create/Edit) ===== -->
-  <div id="form-modal" class="modal-backdrop form-modal">
+  <div id="form-modal" class="modal-backdrop form-modal" data-cy="form-modal">
     <div class="modal modal-lg">
       <div class="modal-header">
         <h2 id="form-modal-title" class="modal-title">Nuevo Tipo de Evento</h2>
-        <button class="modal-close" onclick="ModalManager.close('form-modal')" aria-label="Cerrar">
+        <button class="modal-close" onclick="ModalManager.close('form-modal')" aria-label="Cerrar" data-cy="form-modal-close">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
@@ -281,7 +281,7 @@
           </h3>
           <div class="form-group">
             <label class="form-label" for="field-name">Nombre del tipo de evento <span class="required">*</span></label>
-            <input type="text" id="field-name" class="form-input" placeholder="Ej: Consulta Médica General"
+            <input type="text" id="field-name" data-cy="field-name" class="form-input" placeholder="Ej: Consulta Médica General"
               maxlength="80" autocomplete="off">
             <span class="form-hint">Nombre único que identifica este tipo de evento en la agenda</span>
           </div>
@@ -297,14 +297,14 @@
             Duración Estimada <span class="required" style="color: var(--color-danger-400);">*</span>
           </h3>
           <div class="duration-selector">
-            <button class="duration-pill" data-duration="15">15 min</button>
-            <button class="duration-pill" data-duration="30">30 min</button>
-            <button class="duration-pill" data-duration="45">45 min</button>
-            <button class="duration-pill" data-duration="60">1 hora</button>
-            <button class="duration-pill" data-duration="custom">⏱ Personalizada</button>
+            <button class="duration-pill" data-duration="15" data-cy="duration-15">15 min</button>
+            <button class="duration-pill" data-duration="30" data-cy="duration-30">30 min</button>
+            <button class="duration-pill" data-duration="45" data-cy="duration-45">45 min</button>
+            <button class="duration-pill" data-duration="60" data-cy="duration-60">1 hora</button>
+            <button class="duration-pill" data-duration="custom" data-cy="duration-custom">⏱ Personalizada</button>
           </div>
           <div id="custom-duration-group" class="duration-custom-input">
-            <input type="number" id="custom-duration-input" class="form-input" min="5" max="480" step="5"
+            <input type="number" id="custom-duration-input" data-cy="custom-duration-input" class="form-input" min="5" max="480" step="5"
               placeholder="Min">
             <span class="text-sm text-secondary">minutos</span>
           </div>
@@ -320,7 +320,7 @@
             Modalidad <span class="required" style="color: var(--color-danger-400);">*</span>
           </h3>
           <div class="modality-selector">
-            <button class="modality-card" data-modality="presencial">
+            <button class="modality-card" data-modality="presencial" data-cy="modality-presencial">
               <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -328,7 +328,7 @@
               </svg>
               <span class="modality-label">Presencial</span>
             </button>
-            <button class="modality-card" data-modality="virtual">
+            <button class="modality-card" data-modality="virtual" data-cy="modality-virtual">
               <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="23 7 16 12 23 17 23 7" />
@@ -336,7 +336,7 @@
               </svg>
               <span class="modality-label">Virtual</span>
             </button>
-            <button class="modality-card" data-modality="ambas">
+            <button class="modality-card" data-modality="ambas" data-cy="modality-ambas">
               <svg class="modality-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10" />
@@ -359,7 +359,7 @@
           </h3>
           <div class="toggle-wrapper">
             <label class="toggle">
-              <input type="checkbox" id="confirmation-toggle">
+              <input type="checkbox" id="confirmation-toggle" data-cy="confirmation-toggle">
               <span class="toggle-track"></span>
             </label>
             <span id="confirmation-label" class="toggle-label">Confirmación Automática</span>
@@ -382,14 +382,14 @@
             <span class="text-xs text-tertiary font-medium" style="margin-left: auto;">Opcional</span>
           </h3>
           <div class="form-group">
-            <textarea id="field-description" class="form-textarea"
+            <textarea id="field-description" data-cy="field-description" class="form-textarea"
               placeholder="Describe este tipo de evento para los pacientes..." rows="3" maxlength="500"></textarea>
             <div class="form-char-counter" id="desc-char-counter">
               <span id="desc-char-count">0</span> / 500 caracteres
             </div>
           </div>
           <!-- Upload Zone -->
-          <div id="upload-zone" class="upload-zone">
+          <div id="upload-zone" class="upload-zone" data-cy="upload-zone">
             <svg class="upload-zone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
               <polyline points="17 8 12 3 7 8" />
@@ -398,7 +398,7 @@
             <span class="upload-zone-text">Arrastra archivos o haz clic para subir</span>
             <span class="upload-zone-hint">JPG, PNG o MP4 · Max 10MB</span>
           </div>
-          <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.mp4" multiple>
+          <input type="file" id="file-input" class="hidden" accept=".jpg,.jpeg,.png,.mp4" multiple data-cy="file-input">
           <div id="upload-preview" class="upload-preview"></div>
         </div>
       </div>
@@ -411,24 +411,24 @@
           </svg>
           <span>Guardar con <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">S</kbd></span>
         </div>
-        <button class="btn btn-secondary" onclick="ModalManager.close('form-modal')">Cancelar</button>
-        <button class="btn btn-primary" id="form-submit-btn">Crear Tipo de Evento</button>
+        <button class="btn btn-secondary" onclick="ModalManager.close('form-modal')" data-cy="form-cancel-btn">Cancelar</button>
+        <button class="btn btn-primary" id="form-submit-btn" data-cy="form-submit-btn">Crear Tipo de Evento</button>
       </div>
     </div>
   </div>
 
   <!-- ===== CONFIRM MODAL ===== -->
-  <div id="confirm-modal" class="modal-backdrop confirm-modal">
+  <div id="confirm-modal" class="modal-backdrop confirm-modal" data-cy="confirm-modal">
     <div class="modal modal-sm">
       <div class="modal-body">
         <div class="confirm-icon-wrapper danger">
           <!-- Dynamic icon -->
         </div>
-        <h3 class="confirm-title">¿Estás seguro?</h3>
-        <p class="confirm-message">Esta acción no se puede deshacer.</p>
+        <h3 class="confirm-title" data-cy="confirm-title">¿Estás seguro?</h3>
+        <p class="confirm-message" data-cy="confirm-message">Esta acción no se puede deshacer.</p>
         <div class="confirm-actions">
-          <button class="btn btn-secondary" id="confirm-cancel-btn">Cancelar</button>
-          <button class="btn btn-danger" id="confirm-action-btn">Confirmar</button>
+          <button class="btn btn-secondary" id="confirm-cancel-btn" data-cy="confirm-cancel-btn">Cancelar</button>
+          <button class="btn btn-danger" id="confirm-action-btn" data-cy="confirm-action-btn">Confirmar</button>
         </div>
       </div>
     </div>
@@ -444,14 +444,14 @@
       <p class="tutorial-tooltip-desc">Descripción del paso</p>
       <div class="tutorial-tooltip-progress"></div>
       <div class="tutorial-tooltip-actions">
-        <button class="tutorial-skip" id="tutorial-skip">Saltar</button>
+        <button class="tutorial-skip" id="tutorial-skip" data-cy="tutorial-skip">Saltar</button>
         <div class="tutorial-nav-btns">
-          <button class="btn btn-secondary btn-sm" id="tutorial-prev">Anterior</button>
-          <button class="btn btn-primary btn-sm" id="tutorial-next">Siguiente</button>
+          <button class="btn btn-secondary btn-sm" id="tutorial-prev" data-cy="tutorial-prev">Anterior</button>
+          <button class="btn btn-primary btn-sm" id="tutorial-next" data-cy="tutorial-next">Siguiente</button>
         </div>
       </div>
       <div class="tutorial-no-show">
-        <input type="checkbox" id="tutorial-no-show-check">
+        <input type="checkbox" id="tutorial-no-show-check" data-cy="tutorial-no-show-check">
         <label for="tutorial-no-show-check">No volver a mostrar</label>
       </div>
     </div>
@@ -461,7 +461,7 @@
   <div id="theme-panel" class="theme-panel">
     <div class="theme-panel-header">
       <h3 class="theme-panel-title">Personalizar</h3>
-      <button class="modal-close" id="theme-panel-close" aria-label="Cerrar">
+      <button class="modal-close" id="theme-panel-close" aria-label="Cerrar" data-cy="theme-panel-close">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
@@ -473,7 +473,7 @@
       <div class="theme-section">
         <span class="theme-section-label">Apariencia</span>
         <div class="theme-mode-selector">
-          <button class="theme-mode-btn" data-mode="light">
+          <button class="theme-mode-btn" data-mode="light" data-cy="theme-mode-light">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="5" />
               <line x1="12" y1="1" x2="12" y2="3" />
@@ -487,13 +487,13 @@
             </svg>
             Claro
           </button>
-          <button class="theme-mode-btn active" data-mode="dark">
+          <button class="theme-mode-btn active" data-mode="dark" data-cy="theme-mode-dark">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
             Oscuro
           </button>
-          <button class="theme-mode-btn" data-mode="auto">
+          <button class="theme-mode-btn" data-mode="auto" data-cy="theme-mode-auto">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
               <line x1="8" y1="21" x2="16" y2="21" />
@@ -508,14 +508,14 @@
       <div class="theme-section">
         <span class="theme-section-label">Color de Acento</span>
         <div class="color-picker-group">
-          <button class="color-swatch active" data-color="#3b82f6" style="background: #3b82f6;" title="Azul"></button>
-          <button class="color-swatch" data-color="#06b6d4" style="background: #06b6d4;" title="Cyan"></button>
-          <button class="color-swatch" data-color="#8b5cf6" style="background: #8b5cf6;" title="Violeta"></button>
-          <button class="color-swatch" data-color="#ec4899" style="background: #ec4899;" title="Rosa"></button>
-          <button class="color-swatch" data-color="#10b981" style="background: #10b981;" title="Verde"></button>
-          <button class="color-swatch" data-color="#f59e0b" style="background: #f59e0b;" title="Ámbar"></button>
-          <button class="color-swatch" data-color="#ef4444" style="background: #ef4444;" title="Rojo"></button>
-          <button class="color-swatch" data-color="#6366f1" style="background: #6366f1;" title="Índigo"></button>
+          <button class="color-swatch active" data-color="#3b82f6" style="background: #3b82f6;" title="Azul" data-cy="accent-azul"></button>
+          <button class="color-swatch" data-color="#06b6d4" style="background: #06b6d4;" title="Cyan" data-cy="accent-cyan"></button>
+          <button class="color-swatch" data-color="#8b5cf6" style="background: #8b5cf6;" title="Violeta" data-cy="accent-violeta"></button>
+          <button class="color-swatch" data-color="#ec4899" style="background: #ec4899;" title="Rosa" data-cy="accent-rosa"></button>
+          <button class="color-swatch" data-color="#10b981" style="background: #10b981;" title="Verde" data-cy="accent-verde"></button>
+          <button class="color-swatch" data-color="#f59e0b" style="background: #f59e0b;" title="Ámbar" data-cy="accent-ambar"></button>
+          <button class="color-swatch" data-color="#ef4444" style="background: #ef4444;" title="Rojo" data-cy="accent-rojo"></button>
+          <button class="color-swatch" data-color="#6366f1" style="background: #6366f1;" title="Índigo" data-cy="accent-indigo"></button>
         </div>
       </div>
 
@@ -523,9 +523,9 @@
       <div class="theme-section">
         <span class="theme-section-label">Densidad</span>
         <div class="density-selector">
-          <button class="density-btn" data-density="compact">Compacta</button>
-          <button class="density-btn active" data-density="normal">Normal</button>
-          <button class="density-btn" data-density="spacious">Espaciada</button>
+          <button class="density-btn" data-density="compact" data-cy="density-compact">Compacta</button>
+          <button class="density-btn active" data-density="normal" data-cy="density-normal">Normal</button>
+          <button class="density-btn" data-density="spacious" data-cy="density-spacious">Espaciada</button>
         </div>
       </div>
 
@@ -555,7 +555,7 @@
   </div>
 
   <!-- ===== TOAST CONTAINER ===== -->
-  <div id="toast-container" class="toast-container"></div>
+  <div id="toast-container" class="toast-container" data-cy="toast-container"></div>
 
   <!-- ===== SCRIPTS ===== -->
   <script src="js/data.js"></script>

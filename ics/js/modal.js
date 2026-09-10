@@ -145,10 +145,11 @@ const Toast = (() => {
 
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
+    toast.setAttribute('data-cy', `toast-${type}`);
     toast.innerHTML = `
       <span class="toast-icon">${icons[type]}</span>
       <span class="toast-message">${message}</span>
-      <button class="toast-close" aria-label="Cerrar">
+      <button class="toast-close" aria-label="Cerrar" data-cy="toast-close">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     `;

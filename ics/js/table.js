@@ -112,7 +112,7 @@ const TableModule = (() => {
     };
 
     return `
-      <tr data-id="${event.id}">
+      <tr data-id="${event.id}" data-cy="event-row">
         <td>
           <div class="cell-name">
             <span class="event-name">${escapeHtml(event.name)}</span>
@@ -131,20 +131,30 @@ const TableModule = (() => {
         <td><span class="cell-date">${formatDate(event.createdAt)}</span></td>
         <td>
           <div class="cell-actions">
-            <button class="btn btn-ghost btn-icon btn-sm" title="Editar" data-action="edit" data-id="${event.id}">
+            <button class="btn btn-ghost btn-icon btn-sm" title="Editar" data-cy="btn-edit-event" data-action="edit" data-id="${event.id}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            <button class="btn btn-ghost btn-icon btn-sm" title="Duplicar" data-action="duplicate" data-id="${event.id}">
+            <button class="btn btn-ghost btn-icon btn-sm" title="Duplicar" data-cy="btn-duplicate-event" data-action="duplicate" data-id="${event.id}">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </button>
-            <button class="btn btn-ghost btn-icon btn-sm ${event.status === 'inactive' ? '' : 'danger-hover'}" title="${event.status === 'active' ? 'Dar de baja' : 'Reactivar'}" data-action="toggle-status" data-id="${event.id}">
-              ${event.status === 'active'
-                ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>'
-                : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'}
-            </button>
+            ${renderToggleStatusButton(event, 16)}
           </div>
         </td>
       </tr>
+    `;
+  }
+
+  /** Botón "Dar de baja" / "Reactivar", compartido por tabla, tarjetas y kanban */
+  function renderToggleStatusButton(event, iconSize) {
+    const isActive = event.status === 'active';
+    const icon = isActive
+      ? `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>`
+      : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+
+    return `
+      <button class="btn btn-ghost btn-icon btn-sm ${isActive ? 'danger-hover' : ''}" title="${isActive ? 'Dar de baja' : 'Reactivar'}" data-cy="btn-toggle-status" data-action="toggle-status" data-id="${event.id}">
+        ${icon}
+      </button>
     `;
   }
 
@@ -171,16 +181,17 @@ const TableModule = (() => {
     const confirmLabels = { auto: 'Automática', manual: 'Manual' };
 
     return `
-      <div class="event-card" data-id="${event.id}">
+      <div class="event-card" data-id="${event.id}" data-cy="event-card">
         <div class="event-card-header">
           <span class="badge badge-${event.status}"><span class="badge-dot"></span>${event.status === 'active' ? 'Activo' : 'Inactivo'}</span>
           <div class="cell-actions">
-            <button class="btn btn-ghost btn-icon btn-sm" title="Editar" data-action="edit" data-id="${event.id}">
+            <button class="btn btn-ghost btn-icon btn-sm" title="Editar" data-cy="btn-edit-event" data-action="edit" data-id="${event.id}">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            <button class="btn btn-ghost btn-icon btn-sm" title="Duplicar" data-action="duplicate" data-id="${event.id}">
+            <button class="btn btn-ghost btn-icon btn-sm" title="Duplicar" data-cy="btn-duplicate-event" data-action="duplicate" data-id="${event.id}">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </button>
+            ${renderToggleStatusButton(event, 14)}
           </div>
         </div>
         <h3 class="event-card-title">${escapeHtml(event.name)}</h3>
@@ -212,7 +223,7 @@ const TableModule = (() => {
 
     container.innerHTML = `
       <div class="kanban-board stagger-children">
-        <div class="kanban-column">
+        <div class="kanban-column" data-cy="kanban-column-active">
           <div class="kanban-column-header">
             <h3 class="kanban-column-title">Activos</h3>
             <span class="kanban-column-count">${activeEvents.length}</span>
@@ -221,7 +232,7 @@ const TableModule = (() => {
             ${activeEvents.map(event => renderGridCard(event)).join('')}
           </div>
         </div>
-        <div class="kanban-column">
+        <div class="kanban-column" data-cy="kanban-column-inactive">
           <div class="kanban-column-header">
             <h3 class="kanban-column-title">Inactivos</h3>
             <span class="kanban-column-count">${inactiveEvents.length}</span>
@@ -243,7 +254,7 @@ const TableModule = (() => {
         </svg>
         <h3 class="empty-state-title">Sin resultados</h3>
         <p class="empty-state-text">No se encontraron tipos de evento con los filtros seleccionados. Intenta ajustar los criterios de búsqueda.</p>
-        <button class="btn btn-secondary" onclick="TableModule.clearFilters()">Limpiar Filtros</button>
+        <button class="btn btn-secondary" onclick="TableModule.clearFilters()" data-cy="btn-clear-filters">Limpiar Filtros</button>
       </div>
     `;
   }
