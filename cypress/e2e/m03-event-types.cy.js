@@ -65,4 +65,20 @@ describe('AgendaYA - M03 Tipos de Evento', () => {
     cy.contains('[data-cy="event-row"]', updatedName).should('be.visible');
     cy.contains('[data-cy="event-row"]', updatedName).should('contain.text', '45 min');
   });
+
+  it('(HP) Dar de baja un tipo de evento exitoso', () => {
+    // Arrange: preparar el estado inicial haciendo clic en el botón de cambiar estado de la primera fila
+    cy.get('[data-cy="event-row"]').first().within(() => {
+      cy.get('[data-cy="btn-toggle-status"]').click();
+    });
+
+    // Act: confirmar la deshabilitación en el modal de confirmación
+    cy.get('[data-cy="confirm-modal"]').should('have.class', 'open');
+    cy.get('[data-cy="confirm-action-btn"]').click();
+
+    // Assert: verificar que el modal se cierre y la fila quede en estado Inactivo
+    cy.get('[data-cy="confirm-modal"]').should('not.have.class', 'open');
+    cy.get('[data-cy="event-row"]').first().should('contain.text', 'Inactivo');
+  });
 });
+

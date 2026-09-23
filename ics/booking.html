@@ -360,10 +360,6 @@
         </svg>
         Atrás
       </button>
-      <button id="btn-test-booking-error" data-cy="btn-test-booking-error" class="btn btn-danger" style="margin-left: auto; margin-right: var(--space-2);" aria-label="Probar Error de Reserva">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Error
-      </button>
       <button id="btn-next" class="btn btn-primary" data-cy="btn-next" disabled>
         Seleccionar Horario
       </button>
@@ -401,22 +397,6 @@
       const confirmModal = document.getElementById('confirm-modal');
       if (confirmModal && typeof ModalManager !== 'undefined') {
         ModalManager.register('confirm-modal', confirmModal);
-      }
-      
-      // Setup error button
-      const errorBtn = document.getElementById('btn-test-booking-error');
-      if (errorBtn) {
-        errorBtn.addEventListener('click', () => {
-          if (typeof ConfirmDialog !== 'undefined') {
-            ConfirmDialog.show({
-              title: 'Error de Reserva',
-              message: 'Ese horario ya no se encuentra disponible o hubo un error de conexión. Por favor, intenta de nuevo.',
-              confirmText: 'Entendido',
-              cancelText: 'Cerrar',
-              type: 'danger'
-            });
-          }
-        });
       }
 
       // Sincronizar SOLO el color de acento con el index, forzando fondo blanco (light)
