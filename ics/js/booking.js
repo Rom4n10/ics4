@@ -6,23 +6,33 @@
  *  CONSTANTS & CONFIGURATION
  *  ========================================== */
 const BOOKING_CONFIG = {
-  sessionTimeoutMs: 5 * 60 * 1000,       // 5 minutos (M04-R01NF)
-  pollingIntervalMs: 30 * 1000,           // 30 segundos (M04-R09F)
-  idleTimeoutMs: 60 * 1000,              // 60 seg sin interacción (M04-R09F)
-  warningThresholdMs: 2 * 60 * 1000,     // 2 min restantes → advertencia
-  criticalThresholdMs: 60 * 1000,        // 1 min restante → crítico
-  minAdvanceHours: 2,                     // Antelación mínima de reserva
-  maxBookingsPerDay: 20,                  // Límite por día
-  slotIntervalMinutes: 15,               // Intervalo entre turnos
-  workStart: 8,                           // Hora inicio laboral
-  workEnd: 18,                            // Hora fin laboral
-  blockedDays: [0],                       // Domingo bloqueado (0=Dom)
+  sessionTimeoutMs: 5 * 60 * 1000, // 5 minutos (M04-R01NF)
+  pollingIntervalMs: 30 * 1000, // 30 segundos (M04-R09F)
+  idleTimeoutMs: 60 * 1000, // 60 seg sin interacción (M04-R09F)
+  warningThresholdMs: 2 * 60 * 1000, // 2 min restantes → advertencia
+  criticalThresholdMs: 60 * 1000, // 1 min restante → crítico
+  minAdvanceHours: 2, // Antelación mínima de reserva
+  maxBookingsPerDay: 20, // Límite por día
+  slotIntervalMinutes: 15, // Intervalo entre turnos
+  workStart: 8, // Hora inicio laboral
+  workEnd: 18, // Hora fin laboral
+  blockedDays: [0], // Domingo bloqueado (0=Dom)
   blockedDates: ['2026-04-20', '2026-05-01', '2026-05-25'],
 };
 
 const MONTH_NAMES = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
 ];
 
 const DAY_NAMES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
@@ -66,15 +76,13 @@ function loadBookingEventTypes() {
   // Fallback a los datos de data.js y, si ese script no está disponible,
   // al catálogo por defecto propio de este módulo.
   if (rawEvents.length === 0) {
-    rawEvents = typeof EVENT_TYPES_DATA !== 'undefined'
-      ? [...EVENT_TYPES_DATA]
-      : [...BOOKING_DEFAULT_EVENT_TYPES];
+    rawEvents = typeof EVENT_TYPES_DATA !== 'undefined' ? [...EVENT_TYPES_DATA] : [...BOOKING_DEFAULT_EVENT_TYPES];
   }
 
   // Filtrar solo eventos activos y mapear al formato de booking
   return rawEvents
-    .filter(evt => evt.status === 'active')
-    .map(evt => ({
+    .filter((evt) => evt.status === 'active')
+    .map((evt) => ({
       id: evt.id,
       name: evt.name,
       description: evt.description || '',
@@ -92,14 +100,79 @@ function loadBookingEventTypes() {
  * y tampoco hay tipos persistidos por el admin en localStorage.
  */
 const BOOKING_DEFAULT_EVENT_TYPES = [
-  { id: 'evt-001', name: 'Consulta General', description: 'Consulta médica general para evaluación de síntomas, revisión de historial clínico y seguimiento de tratamientos.', duration: 30, modality: 'presencial', confirmation: 'auto', status: 'active' },
-  { id: 'evt-002', name: 'Teleconsulta', description: 'Consulta médica virtual a través de videollamada para seguimiento de pacientes remotos.', duration: 15, modality: 'virtual', confirmation: 'auto', status: 'active' },
-  { id: 'evt-003', name: 'Cirugía Programada', description: 'Intervención quirúrgica programada que requiere preparación previa y confirmación del equipo médico.', duration: 60, modality: 'presencial', confirmation: 'manual', status: 'active' },
-  { id: 'evt-004', name: 'Control Post-quirúrgico', description: 'Seguimiento médico posterior a una intervención para evaluar la evolución del paciente.', duration: 30, modality: 'ambas', confirmation: 'auto', status: 'active' },
-  { id: 'evt-005', name: 'Evaluación Psicológica', description: 'Sesión de evaluación psicológica para diagnóstico o seguimiento de salud mental del paciente.', duration: 45, modality: 'virtual', confirmation: 'manual', status: 'active' },
-  { id: 'evt-006', name: 'Terapia Física', description: 'Sesión de rehabilitación física con ejercicios supervisados y seguimiento de progreso.', duration: 45, modality: 'presencial', confirmation: 'auto', status: 'active' },
-  { id: 'evt-007', name: 'Consulta de Emergencia', description: 'Atención médica de urgencia para casos que requieren evaluación inmediata.', duration: 15, modality: 'presencial', confirmation: 'manual', status: 'active' },
-  { id: 'evt-009', name: 'Vacunación', description: 'Aplicación de vacunas según calendario de vacunación o solicitud individual del paciente.', duration: 15, modality: 'presencial', confirmation: 'auto', status: 'active' },
+  {
+    id: 'evt-001',
+    name: 'Consulta General',
+    description:
+      'Consulta médica general para evaluación de síntomas, revisión de historial clínico y seguimiento de tratamientos.',
+    duration: 30,
+    modality: 'presencial',
+    confirmation: 'auto',
+    status: 'active',
+  },
+  {
+    id: 'evt-002',
+    name: 'Teleconsulta',
+    description: 'Consulta médica virtual a través de videollamada para seguimiento de pacientes remotos.',
+    duration: 15,
+    modality: 'virtual',
+    confirmation: 'auto',
+    status: 'active',
+  },
+  {
+    id: 'evt-003',
+    name: 'Cirugía Programada',
+    description: 'Intervención quirúrgica programada que requiere preparación previa y confirmación del equipo médico.',
+    duration: 60,
+    modality: 'presencial',
+    confirmation: 'manual',
+    status: 'active',
+  },
+  {
+    id: 'evt-004',
+    name: 'Control Post-quirúrgico',
+    description: 'Seguimiento médico posterior a una intervención para evaluar la evolución del paciente.',
+    duration: 30,
+    modality: 'ambas',
+    confirmation: 'auto',
+    status: 'active',
+  },
+  {
+    id: 'evt-005',
+    name: 'Evaluación Psicológica',
+    description: 'Sesión de evaluación psicológica para diagnóstico o seguimiento de salud mental del paciente.',
+    duration: 45,
+    modality: 'virtual',
+    confirmation: 'manual',
+    status: 'active',
+  },
+  {
+    id: 'evt-006',
+    name: 'Terapia Física',
+    description: 'Sesión de rehabilitación física con ejercicios supervisados y seguimiento de progreso.',
+    duration: 45,
+    modality: 'presencial',
+    confirmation: 'auto',
+    status: 'active',
+  },
+  {
+    id: 'evt-007',
+    name: 'Consulta de Emergencia',
+    description: 'Atención médica de urgencia para casos que requieren evaluación inmediata.',
+    duration: 15,
+    modality: 'presencial',
+    confirmation: 'manual',
+    status: 'active',
+  },
+  {
+    id: 'evt-009',
+    name: 'Vacunación',
+    description: 'Aplicación de vacunas según calendario de vacunación o solicitud individual del paciente.',
+    duration: 15,
+    modality: 'presencial',
+    confirmation: 'auto',
+    status: 'active',
+  },
 ];
 
 /** Tipos de evento cargados dinámicamente al iniciar */
@@ -112,7 +185,27 @@ const MOCK_BOOKED_SLOTS = {
   '2026-04-14': ['09:00', '09:30', '10:00', '14:00', '14:30'],
   '2026-04-15': ['08:00', '08:30', '11:00', '11:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'],
   '2026-04-16': ['09:00', '10:30', '13:00'],
-  '2026-04-17': ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'],
+  '2026-04-17': [
+    '08:00',
+    '08:30',
+    '09:00',
+    '09:30',
+    '10:00',
+    '10:30',
+    '11:00',
+    '11:30',
+    '12:00',
+    '13:00',
+    '13:30',
+    '14:00',
+    '14:30',
+    '15:00',
+    '15:30',
+    '16:00',
+    '16:30',
+    '17:00',
+    '17:30',
+  ],
   '2026-04-21': ['08:00', '09:00', '10:00'],
 };
 
@@ -180,20 +273,19 @@ function renderStepper() {
   const container = getEl('booking-stepper');
   if (!container) return;
 
-  container.innerHTML = steps.map((label, i) => {
-    const stepNum = i + 1;
-    const isActive = stepNum === BookingState.currentStep;
-    const isCompleted = stepNum < BookingState.currentStep;
-    const wrapperClass = isActive ? 'active' : (isCompleted ? 'completed' : '');
-    const dotClass = isActive ? 'active' : (isCompleted ? 'completed' : '');
-    const dotContent = isCompleted
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
-      : stepNum;
-    const lineHtml = i < steps.length - 1
-      ? `<div class="stepper-line ${isCompleted ? 'completed' : ''}"></div>`
-      : '';
+  container.innerHTML = steps
+    .map((label, i) => {
+      const stepNum = i + 1;
+      const isActive = stepNum === BookingState.currentStep;
+      const isCompleted = stepNum < BookingState.currentStep;
+      const wrapperClass = isActive ? 'active' : isCompleted ? 'completed' : '';
+      const dotClass = isActive ? 'active' : isCompleted ? 'completed' : '';
+      const dotContent = isCompleted
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'
+        : stepNum;
+      const lineHtml = i < steps.length - 1 ? `<div class="stepper-line ${isCompleted ? 'completed' : ''}"></div>` : '';
 
-    return `
+      return `
       <div class="stepper-item">
         <div class="stepper-dot-wrapper ${wrapperClass}">
           <div class="stepper-dot ${dotClass}">${dotContent}</div>
@@ -202,14 +294,15 @@ function renderStepper() {
         ${lineHtml}
       </div>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function goToStep(step) {
   if (step < 1 || step > 4) return;
 
   // Hide current step
-  document.querySelectorAll('.booking-step').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.booking-step').forEach((el) => el.classList.remove('active'));
 
   BookingState.currentStep = step;
 
@@ -259,7 +352,7 @@ function renderEventTypes() {
   const container = getEl('event-types-list');
   if (!container) return;
 
-  container.innerHTML = BOOKING_EVENT_TYPES.map(evt => {
+  container.innerHTML = BOOKING_EVENT_TYPES.map((evt) => {
     const isSelected = BookingState.selectedEventType?.id === evt.id;
     return `
       <button class="event-type-card ${isSelected ? 'selected' : ''}"
@@ -285,7 +378,7 @@ function renderEventTypes() {
 }
 
 function selectEventType(eventId) {
-  BookingState.selectedEventType = BOOKING_EVENT_TYPES.find(e => e.id === eventId);
+  BookingState.selectedEventType = BOOKING_EVENT_TYPES.find((e) => e.id === eventId);
   renderEventTypes();
   updateFooterButtons();
   showToast('info', `Seleccionado: ${BookingState.selectedEventType.name}`);
@@ -313,7 +406,7 @@ function renderCalendar() {
   // Disable prev button if current month
   const prevBtn = getEl('calendar-prev');
   if (prevBtn) {
-    prevBtn.disabled = (calendarYear === today.getFullYear() && calendarMonth <= today.getMonth());
+    prevBtn.disabled = calendarYear === today.getFullYear() && calendarMonth <= today.getMonth();
   }
 
   // Generate days
@@ -342,7 +435,9 @@ function renderCalendar() {
 
     const dotHtml = hasSlots
       ? '<span class="availability-dot"></span>'
-      : (isBlocked && !isPast ? '<span class="availability-dot" style="background:var(--color-danger-400)"></span>' : '');
+      : isBlocked && !isPast
+        ? '<span class="availability-dot" style="background:var(--color-danger-400)"></span>'
+        : '';
 
     html += `
       <button class="${classes}" ${isPast || isBlocked ? 'disabled' : ''}
@@ -456,8 +551,11 @@ function generateTimeSlots() {
 
       // Check if slot end overflows work hours
       const slotEnd = new Date(slotTime.getTime() + duration * 60 * 1000);
-      if (slotEnd.getHours() > BOOKING_CONFIG.workEnd ||
-          (slotEnd.getHours() === BOOKING_CONFIG.workEnd && slotEnd.getMinutes() > 0)) continue;
+      if (
+        slotEnd.getHours() > BOOKING_CONFIG.workEnd ||
+        (slotEnd.getHours() === BOOKING_CONFIG.workEnd && slotEnd.getMinutes() > 0)
+      )
+        continue;
 
       const timeStr = `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
       const isBooked = bookedSlots.includes(timeStr);
@@ -487,12 +585,12 @@ function generateTimeSlots() {
 }
 
 function renderTimeSlots(container, slots) {
-  const availableSlots = slots.filter(s => s.available);
-  const unavailableSlots = slots.filter(s => !s.available);
+  const availableSlots = slots.filter((s) => s.available);
+  const unavailableSlots = slots.filter((s) => !s.available);
 
   let html = '<div class="time-slots-grid">';
 
-  slots.forEach(slot => {
+  slots.forEach((slot) => {
     const isSelected = BookingState.selectedSlot === slot.time;
     let cls = 'time-slot';
     if (!slot.available) cls += ' disabled';
@@ -547,7 +645,9 @@ function renderNoSlots(container) {
         </div>
         <p class="suggestions-text">No hay disponibilidad en la fecha seleccionada. Te sugerimos estos horarios cercanos:</p>
         <div class="suggestions-list">
-          ${suggestions.map(s => `
+          ${suggestions
+            .map(
+              (s) => `
             <button class="suggestion-item" data-cy="suggestion-item" onclick="selectSuggestion('${s.date}', '${s.time}')">
               <div class="suggestion-info">
                 <span class="suggestion-date">${s.displayDate}</span>
@@ -557,7 +657,9 @@ function renderNoSlots(container) {
                 <polyline points="9 18 15 12 9 6"/>
               </svg>
             </button>
-          `).join('')}
+          `,
+            )
+            .join('')}
         </div>
       </div>
     `;
@@ -621,7 +723,10 @@ function findNearestSuggestions(count) {
         for (let oMin = interval; oMin < duration; oMin += interval) {
           const oTime = new Date(slotTime.getTime() + oMin * 60 * 1000);
           const oStr = `${String(oTime.getHours()).padStart(2, '0')}:${String(oTime.getMinutes()).padStart(2, '0')}`;
-          if (booked.includes(oStr)) { overlaps = true; break; }
+          if (booked.includes(oStr)) {
+            overlaps = true;
+            break;
+          }
         }
         if (overlaps) continue;
 
@@ -657,7 +762,7 @@ function selectTimeSlot(timeStr) {
   BookingState.selectedSlot = timeStr;
 
   // Visual feedback
-  document.querySelectorAll('.time-slot').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.time-slot').forEach((el) => el.classList.remove('selected'));
   const btn = document.querySelector(`.time-slot[onclick="selectTimeSlot('${timeStr}')"]`);
   if (btn) btn.classList.add('selected');
 
@@ -739,7 +844,7 @@ function expireSession() {
   stopPolling();
 
   // Hide all steps + footer
-  document.querySelectorAll('.booking-step').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.booking-step').forEach((el) => el.classList.remove('active'));
   getEl('booking-footer').style.display = 'none';
 
   // Show expired screen
@@ -855,7 +960,7 @@ function updatePollingIndicator(active) {
  *  ========================================== */
 function setupIdleDetection() {
   const events = ['touchstart', 'mousemove', 'mousedown', 'keydown', 'scroll'];
-  events.forEach(evt => {
+  events.forEach((evt) => {
     document.addEventListener(evt, recordInteraction, { passive: true });
   });
 }
@@ -945,7 +1050,8 @@ function renderStep4() {
   const t12 = formatTime12h(selectedSlot);
 
   getEl('confirm-event-name').textContent = selectedEventType.name;
-  getEl('confirm-event-meta').textContent = `${selectedEventType.duration} min · ${capitalize(selectedEventType.modality)}`;
+  getEl('confirm-event-meta').textContent =
+    `${selectedEventType.duration} min · ${capitalize(selectedEventType.modality)}`;
   getEl('confirm-date').textContent = `${dayName} ${parts[2]} de ${monthName}, ${parts[0]}`;
   getEl('confirm-time').textContent = `${t12.time} ${t12.period} (${BookingState.timezone.replace(/_/g, ' ')})`;
   getEl('confirm-name').textContent = guestData.fullName;
@@ -965,7 +1071,8 @@ function confirmBooking() {
   const btn = getEl('btn-next');
   if (btn) {
     btn.disabled = true;
-    btn.innerHTML = '<span class="slots-loading-spinner" style="width:20px;height:20px;border-width:2px;"></span> Confirmando...';
+    btn.innerHTML =
+      '<span class="slots-loading-spinner" style="width:20px;height:20px;border-width:2px;"></span> Confirmando...';
   }
 
   // Simulate API call
@@ -975,7 +1082,7 @@ function confirmBooking() {
     stopPolling();
 
     // Hide steps + footer
-    document.querySelectorAll('.booking-step').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.booking-step').forEach((el) => el.classList.remove('active'));
     getEl('booking-footer').style.display = 'none';
 
     // Hide timer
@@ -1020,17 +1127,18 @@ function updateFooterButtons() {
             message: 'El campo "Tipo de Consulta" está vacío y es obligatorio. Por favor, selecciona una consulta.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           return;
         }
         if (!BookingState.selectedDate) {
           ConfirmDialog.show({
             title: 'Campo obligatorio requerido',
-            message: 'El campo "Fecha de consulta" está vacío y es obligatorio. Por favor, selecciona un día en el calendario.',
+            message:
+              'El campo "Fecha de consulta" está vacío y es obligatorio. Por favor, selecciona un día en el calendario.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           return;
         }
@@ -1045,10 +1153,11 @@ function updateFooterButtons() {
         if (!BookingState.selectedSlot) {
           ConfirmDialog.show({
             title: 'Campo obligatorio requerido',
-            message: 'El campo "Horario" está vacío y es obligatorio. Por favor, selecciona una de las horas disponibles.',
+            message:
+              'El campo "Horario" está vacío y es obligatorio. Por favor, selecciona una de las horas disponibles.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           return;
         }
@@ -1071,7 +1180,7 @@ function updateFooterButtons() {
             message: 'El campo "Nombre completo" está vacío y es obligatorio.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           if (nameInput) {
             nameInput.classList.add('error');
@@ -1089,7 +1198,7 @@ function updateFooterButtons() {
             message: 'El campo "Nombre completo" debe tener al menos 3 caracteres.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           if (nameInput) {
             nameInput.classList.add('error');
@@ -1105,7 +1214,7 @@ function updateFooterButtons() {
             message: 'El campo "Correo electrónico" está vacío y es obligatorio.',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           if (emailInput) {
             emailInput.classList.add('error');
@@ -1124,7 +1233,7 @@ function updateFooterButtons() {
             message: 'El campo "Correo electrónico" no tiene un formato válido (Ej: usuario@dominio.com).',
             confirmText: 'Entendido',
             type: 'warning',
-            singleButton: true
+            singleButton: true,
           });
           if (emailInput) {
             emailInput.classList.add('error');
@@ -1174,10 +1283,13 @@ function showToast(type, message) {
   if (!container) return;
 
   const iconMap = {
-    success: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
-    error: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-    warning: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-    info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+    success:
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+    error:
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+    warning:
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+    info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
   };
 
   const toast = document.createElement('div');
@@ -1209,7 +1321,7 @@ function formatDateKey(date) {
 function formatTime12h(time24) {
   const [h, m] = time24.split(':').map(Number);
   const period = h >= 12 ? 'PM' : 'AM';
-  const hour12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+  const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
   return { time: `${hour12}:${String(m).padStart(2, '0')}`, period };
 }
 

@@ -10,18 +10,13 @@ import { describe, it, expect } from 'vitest';
 // ---------------------------------------------------------------------
 
 const DESCRIPTION_MAX_LENGTH = 500;
+// Este archivo prueba la validación del formulario M03 sin depender del DOM.
 
 /**
  * Valida los datos requeridos para un tipo de evento.
  */
-function validarTipoEvento({
-  name,
-  description = '',
-  duration,
-  modality,
-  existingEvents = [],
-  editingId = null,
-}) {
+function validarTipoEvento({ name, description = '', duration, modality, existingEvents = [], editingId = null }) {
+  // Acumular todos los errores permite mostrar validaciones de varios campos a la vez.
   const errors = {};
   const trimmedName = name ? name.trim() : '';
 
@@ -30,7 +25,7 @@ function validarTipoEvento({
     errors.name = 'El nombre es obligatorio';
   } else {
     const duplicate = existingEvents.find(
-      (e) => e.name.toLowerCase() === trimmedName.toLowerCase() && e.id !== editingId
+      (e) => e.name.toLowerCase() === trimmedName.toLowerCase() && e.id !== editingId,
     );
     if (duplicate) {
       errors.name = 'Ya existe un tipo de evento con este nombre';
@@ -62,6 +57,7 @@ function validarTipoEvento({
  * Gestiona el valor, etiqueta e interruptor de confirmación automática vs. manual.
  */
 function gestionarConfirmacion(tipoSeleccionado = 'auto') {
+  // La opción manual activa el interruptor y cambia la etiqueta mostrada.
   const esManual = tipoSeleccionado === 'manual';
   return {
     confirmation: esManual ? 'manual' : 'auto',
@@ -74,6 +70,7 @@ function gestionarConfirmacion(tipoSeleccionado = 'auto') {
  * Evalúa el estado del contador de caracteres de la descripción.
  */
 function evaluarEstadoContador(longitud, maxLimite = DESCRIPTION_MAX_LENGTH) {
+  // Priorizar el límite exacto antes de comprobar el umbral de advertencia.
   if (longitud >= maxLimite) return 'limit';
   if (longitud >= maxLimite * 0.9) return 'warning';
   return 'normal';
@@ -84,7 +81,6 @@ function evaluarEstadoContador(longitud, maxLimite = DESCRIPTION_MAX_LENGTH) {
 // ---------------------------------------------------------------------
 
 describe('Módulo 2: Validación de tipos de evento y lógica de confirmación', () => {
-
   // ====================================================
   // CASOS NORMALES (Tests 16 a 20)
   // ====================================================

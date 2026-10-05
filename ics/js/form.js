@@ -23,7 +23,7 @@ const FormModule = (() => {
   }
 
   function openEdit(id) {
-    const event = AppState.eventTypes.find(e => e.id === id);
+    const event = AppState.eventTypes.find((e) => e.id === id);
     if (!event) return;
 
     resetForm();
@@ -143,7 +143,7 @@ const FormModule = (() => {
 
   /* --- Duration --- */
   function bindDurationPills() {
-    document.querySelectorAll('.duration-pill').forEach(pill => {
+    document.querySelectorAll('.duration-pill').forEach((pill) => {
       pill.addEventListener('click', () => {
         const val = pill.dataset.duration;
         if (val === 'custom') {
@@ -190,7 +190,7 @@ const FormModule = (() => {
   }
 
   function clearDurationSelection() {
-    document.querySelectorAll('.duration-pill').forEach(p => {
+    document.querySelectorAll('.duration-pill').forEach((p) => {
       p.classList.remove('active', 'custom-active');
     });
   }
@@ -204,7 +204,7 @@ const FormModule = (() => {
 
   /* --- Modality --- */
   function bindModalityCards() {
-    document.querySelectorAll('.modality-card').forEach(card => {
+    document.querySelectorAll('.modality-card').forEach((card) => {
       card.addEventListener('click', () => {
         selectModality(card.dataset.modality);
       });
@@ -219,7 +219,7 @@ const FormModule = (() => {
   }
 
   function clearModalitySelection() {
-    document.querySelectorAll('.modality-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.modality-card').forEach((c) => c.classList.remove('active'));
   }
 
   /* --- Confirmation --- */
@@ -243,9 +243,7 @@ const FormModule = (() => {
   function updateConfirmationUI() {
     const label = document.getElementById('confirmation-label');
     if (label) {
-      label.textContent = selectedConfirmation === 'manual'
-        ? 'Confirmación Manual'
-        : 'Confirmación Automática';
+      label.textContent = selectedConfirmation === 'manual' ? 'Confirmación Manual' : 'Confirmación Automática';
     }
   }
 
@@ -280,14 +278,14 @@ const FormModule = (() => {
 
   function handleFiles(fileList) {
     const allowed = ['image/jpeg', 'image/png', 'video/mp4'];
-    Array.from(fileList).forEach(file => {
+    Array.from(fileList).forEach((file) => {
       if (allowed.includes(file.type)) {
         const reader = new FileReader();
         reader.onload = (e) => {
           uploadedFiles.push({
             name: file.name,
             type: file.type,
-            url: e.target.result
+            url: e.target.result,
           });
           updateUploadPreview();
         };
@@ -301,16 +299,22 @@ const FormModule = (() => {
   function updateUploadPreview() {
     const container = document.getElementById('upload-preview');
     if (!container) return;
-    container.innerHTML = uploadedFiles.map((file, idx) => `
+    container.innerHTML = uploadedFiles
+      .map(
+        (file, idx) => `
       <div class="upload-preview-item">
-        ${file.type.startsWith('image/')
-          ? `<img src="${file.url}" alt="${file.name}">`
-          : `<video src="${file.url}" muted></video>`}
+        ${
+          file.type.startsWith('image/')
+            ? `<img src="${file.url}" alt="${file.name}">`
+            : `<video src="${file.url}" muted></video>`
+        }
         <button class="upload-preview-remove" data-idx="${idx}" data-cy="btn-remove-upload" title="Eliminar">×</button>
       </div>
-    `).join('');
+    `,
+      )
+      .join('');
 
-    container.querySelectorAll('.upload-preview-remove').forEach(btn => {
+    container.querySelectorAll('.upload-preview-remove').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         uploadedFiles.splice(parseInt(btn.dataset.idx), 1);
@@ -329,7 +333,7 @@ const FormModule = (() => {
       const name = field.value.trim();
       if (name) {
         const duplicate = AppState.eventTypes.find(
-          e => e.name.toLowerCase() === name.toLowerCase() && e.id !== editingId
+          (e) => e.name.toLowerCase() === name.toLowerCase() && e.id !== editingId,
         );
         if (duplicate) {
           showFieldError('field-name', 'Ya existe un tipo de evento con este nombre');
@@ -353,8 +357,8 @@ const FormModule = (() => {
   }
 
   function clearErrors() {
-    document.querySelectorAll('.form-input.error').forEach(el => el.classList.remove('error'));
-    document.querySelectorAll('.form-error').forEach(el => el.remove());
+    document.querySelectorAll('.form-input.error').forEach((el) => el.classList.remove('error'));
+    document.querySelectorAll('.form-error').forEach((el) => el.remove());
   }
 
   function validate() {
@@ -366,9 +370,7 @@ const FormModule = (() => {
       showFieldError('field-name', 'El nombre es obligatorio');
       valid = false;
     } else {
-      const dup = AppState.eventTypes.find(
-        e => e.name.toLowerCase() === name.toLowerCase() && e.id !== editingId
-      );
+      const dup = AppState.eventTypes.find((e) => e.name.toLowerCase() === name.toLowerCase() && e.id !== editingId);
       if (dup) {
         showFieldError('field-name', 'Ya existe un tipo de evento con este nombre');
         valid = false;
@@ -411,12 +413,12 @@ const FormModule = (() => {
       duration: selectedDuration,
       modality: selectedModality,
       confirmation: selectedConfirmation,
-      mediaFiles: [...uploadedFiles]
+      mediaFiles: [...uploadedFiles],
     };
 
     if (editingId) {
       // Edit existing
-      const event = AppState.eventTypes.find(e => e.id === editingId);
+      const event = AppState.eventTypes.find((e) => e.id === editingId);
       if (event) {
         Object.assign(event, data, { updatedAt: new Date().toISOString() });
         Toast.show(`"${data.name}" actualizado correctamente`, 'success');
@@ -428,10 +430,14 @@ const FormModule = (() => {
         ...data,
         status: 'active',
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
       AppState.eventTypes.unshift(newEvent);
-      Toast.show(`tipo de evento creado operacion exitosa<br><small>Resumen: ${data.name} | ${data.duration} min | ${data.modality}</small>`, 'success', 5000);
+      Toast.show(
+        `tipo de evento creado operacion exitosa<br><small>Resumen: ${data.name} | ${data.duration} min | ${data.modality}</small>`,
+        'success',
+        5000,
+      );
     }
 
     ModalManager.close('form-modal');

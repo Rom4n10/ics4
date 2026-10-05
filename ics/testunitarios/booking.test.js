@@ -12,12 +12,14 @@ import { describe, it, expect } from 'vitest';
 // ---------------------------------------------------------------------
 
 const HORAS_ANTELACION_POR_DEFECTO = 2; // 2 horas de antelación mínima requerida
+// La suite comprueba las reglas de agenda con fechas fijas para evitar dependencia del reloj real.
 
 /**
  * Convierte una fecha y hora en objeto Date normalizado.
  * Soporta strings 'YYYY-MM-DD' y 'HH:MM' o instancias Date.
  */
 function parsearFechaHora(fecha, hora = '00:00') {
+  // Normalizar strings y objetos Date permite reutilizar las mismas reglas.
   if (!fecha) return null;
   if (fecha instanceof Date) return isNaN(fecha.getTime()) ? null : fecha;
 
@@ -65,7 +67,11 @@ function cumpleAntelacionMinima(fechaHora, minAdvanceHours = HORAS_ANTELACION_PO
  * Calcula el primer horario factible a partir de la hora actual y la antelación mínima,
  * redondeando hacia el siguiente intervalo de minutos configurado (ej: 15 min).
  */
-function obtenerPrimerHorarioPermitido(now = new Date(), minAdvanceHours = HORAS_ANTELACION_POR_DEFECTO, interval = 15) {
+function obtenerPrimerHorarioPermitido(
+  now = new Date(),
+  minAdvanceHours = HORAS_ANTELACION_POR_DEFECTO,
+  interval = 15,
+) {
   const base = parsearFechaHora(now);
   if (!base) return null;
 
@@ -88,6 +94,7 @@ function obtenerPrimerHorarioPermitido(now = new Date(), minAdvanceHours = HORAS
  * Validador integral de viabilidad de una reserva por fecha y horario.
  */
 function validarReservaHorario(fechaStr, horaStr, minAdvanceHours = HORAS_ANTELACION_POR_DEFECTO, now = new Date()) {
+  // Aplicar las reglas en orden: formato, pasado y antelación mínima.
   const target = parsearFechaHora(fechaStr, horaStr);
   if (!target) {
     return { permitida: false, razon: 'formato_invalido', horasDiferencia: null };
@@ -111,7 +118,6 @@ function validarReservaHorario(fechaStr, horaStr, minAdvanceHours = HORAS_ANTELA
 // ---------------------------------------------------------------------
 
 describe('Módulo 1: Control de fechas pasadas y tiempo de antelación mínima', () => {
-
   // ====================================================
   // CASOS NORMALES (Tests 1 a 5)
   // ====================================================
@@ -303,7 +309,6 @@ describe('Módulo 1: Control de fechas pasadas y tiempo de antelación mínima',
     it('Prueba 15: normaliza configuraciones de antelación mínima negativas para evitar reservas pasadas', () => {
       // Arrange: Antelación configurada con valor negativo (-2 horas)
       const now = new Date('2026-06-15T10:00:00');
-      const turnoPasado = new Date('2026-06-15T09:00:00');
 
       // Act: Intentar validar un turno que ocurrió hace 1 hora con antelación -2
       const resultado = validarReservaHorario('2026-06-15', '09:00', -2, now);

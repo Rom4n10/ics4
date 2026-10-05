@@ -9,7 +9,7 @@ const ThemeModule = (() => {
     mode: 'dark',
     accent: '#3b82f6',
     density: 'normal',
-    view: 'table'
+    view: 'table',
   };
 
   function init() {
@@ -24,7 +24,9 @@ const ThemeModule = (() => {
       if (saved) {
         prefs = { ...prefs, ...JSON.parse(saved) };
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {
+      /* ignore */
+    }
   }
 
   function savePrefs() {
@@ -93,17 +95,17 @@ const ThemeModule = (() => {
 
   function updateUI() {
     // Mode buttons
-    document.querySelectorAll('.theme-mode-btn').forEach(btn => {
+    document.querySelectorAll('.theme-mode-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.mode === prefs.mode);
     });
 
     // Accent swatches
-    document.querySelectorAll('.color-swatch').forEach(swatch => {
+    document.querySelectorAll('.color-swatch').forEach((swatch) => {
       swatch.classList.toggle('active', swatch.dataset.color === prefs.accent);
     });
 
     // Density buttons
-    document.querySelectorAll('.density-btn').forEach(btn => {
+    document.querySelectorAll('.density-btn').forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.density === prefs.density);
     });
   }
@@ -118,17 +120,17 @@ const ThemeModule = (() => {
     if (closeBtn) closeBtn.addEventListener('click', closePanel);
 
     // Mode buttons
-    document.querySelectorAll('.theme-mode-btn').forEach(btn => {
+    document.querySelectorAll('.theme-mode-btn').forEach((btn) => {
       btn.addEventListener('click', () => setMode(btn.dataset.mode));
     });
 
     // Accent swatches
-    document.querySelectorAll('.color-swatch').forEach(swatch => {
+    document.querySelectorAll('.color-swatch').forEach((swatch) => {
       swatch.addEventListener('click', () => setAccent(swatch.dataset.color));
     });
 
     // Density buttons
-    document.querySelectorAll('.density-btn').forEach(btn => {
+    document.querySelectorAll('.density-btn').forEach((btn) => {
       btn.addEventListener('click', () => setDensity(btn.dataset.density));
     });
 

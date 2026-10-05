@@ -6,14 +6,15 @@ const EVENT_TYPES_DATA = [
   {
     id: 'evt-001',
     name: 'Consulta General',
-    description: 'Consulta médica general para evaluación de síntomas, revisión de historial clínico y seguimiento de tratamientos.',
+    description:
+      'Consulta médica general para evaluación de síntomas, revisión de historial clínico y seguimiento de tratamientos.',
     duration: 30,
     modality: 'presencial',
     confirmation: 'auto',
     status: 'active',
     createdAt: '2026-01-15T10:30:00',
     updatedAt: '2026-03-20T14:00:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-002',
@@ -25,7 +26,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-02-01T09:00:00',
     updatedAt: '2026-03-18T11:30:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-003',
@@ -37,7 +38,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-01-20T08:00:00',
     updatedAt: '2026-04-01T16:45:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-004',
@@ -49,7 +50,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-02-10T12:00:00',
     updatedAt: '2026-03-25T10:15:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-005',
@@ -61,7 +62,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-02-15T14:30:00',
     updatedAt: '2026-04-05T09:00:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-006',
@@ -73,7 +74,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-03-01T11:00:00',
     updatedAt: '2026-04-08T15:30:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-007',
@@ -85,7 +86,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-03-05T07:00:00',
     updatedAt: '2026-04-10T12:00:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-008',
@@ -97,7 +98,7 @@ const EVENT_TYPES_DATA = [
     status: 'inactive',
     createdAt: '2026-01-10T13:00:00',
     updatedAt: '2026-02-28T17:00:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-009',
@@ -109,7 +110,7 @@ const EVENT_TYPES_DATA = [
     status: 'active',
     createdAt: '2026-03-10T08:30:00',
     updatedAt: '2026-04-12T10:00:00',
-    mediaFiles: []
+    mediaFiles: [],
   },
   {
     id: 'evt-010',
@@ -121,8 +122,8 @@ const EVENT_TYPES_DATA = [
     status: 'inactive',
     createdAt: '2026-02-20T10:00:00',
     updatedAt: '2026-03-15T14:30:00',
-    mediaFiles: []
-  }
+    mediaFiles: [],
+  },
 ];
 
 /** Duration presets */
@@ -132,20 +133,20 @@ const DURATION_PRESETS = [15, 30, 45, 60];
 const MODALITY_OPTIONS = [
   { value: 'presencial', label: 'Presencial', icon: 'building' },
   { value: 'virtual', label: 'Virtual', icon: 'video' },
-  { value: 'ambas', label: 'Ambas', icon: 'globe' }
+  { value: 'ambas', label: 'Ambas', icon: 'globe' },
 ];
 
 /** Confirmation types */
 const CONFIRMATION_TYPES = [
   { value: 'auto', label: 'Automática' },
-  { value: 'manual', label: 'Manual' }
+  { value: 'manual', label: 'Manual' },
 ];
 
 /** Status options */
 const STATUS_OPTIONS = [
   { value: 'all', label: 'Todos' },
   { value: 'active', label: 'Activos' },
-  { value: 'inactive', label: 'Inactivos' }
+  { value: 'inactive', label: 'Inactivos' },
 ];
 
 /** Duration filter options */
@@ -155,7 +156,7 @@ const DURATION_FILTER_OPTIONS = [
   { value: '30', label: '30 min' },
   { value: '45', label: '45 min' },
   { value: '60', label: '60 min' },
-  { value: 'custom', label: 'Personalizada' }
+  { value: 'custom', label: 'Personalizada' },
 ];
 
 /** Tutorial steps */
@@ -163,27 +164,29 @@ const TUTORIAL_STEPS = [
   {
     target: '#btn-new-event',
     title: 'Crear Tipo de Evento',
-    description: 'Haz clic aquí para crear un nuevo tipo de evento. Deberás completar el nombre, la duración y la modalidad como campos obligatorios.',
-    position: 'bottom'
+    description:
+      'Haz clic aquí para crear un nuevo tipo de evento. Deberás completar el nombre, la duración y la modalidad como campos obligatorios.',
+    position: 'bottom',
   },
   {
     target: '#filters-panel',
     title: 'Filtrar tus Eventos',
-    description: 'Usa los filtros para buscar tipos de evento por nombre, estado, duración o fecha de creación. Los filtros se aplican en tiempo real.',
-    position: 'bottom'
+    description:
+      'Usa los filtros para buscar tipos de evento por nombre, estado, duración o fecha de creación. Los filtros se aplican en tiempo real.',
+    position: 'bottom',
   },
   {
     target: '#view-toggle',
     title: 'Cambiar la Vista',
     description: 'Alterna entre la vista de tabla y la vista de tarjetas según tu preferencia.',
-    position: 'bottom'
+    position: 'bottom',
   },
   {
     target: '#btn-theme',
     title: 'Personalizar Interfaz',
     description: 'Personaliza el tema, los colores y la densidad visual de la interfaz a tu gusto.',
-    position: 'left'
-  }
+    position: 'left',
+  },
 ];
 
 /** Theme accent colors */
@@ -195,5 +198,5 @@ const ACCENT_COLORS = [
   { value: '#10b981', label: 'Verde' },
   { value: '#f59e0b', label: 'Ámbar' },
   { value: '#ef4444', label: 'Rojo' },
-  { value: '#6366f1', label: 'Índigo' }
+  { value: '#6366f1', label: 'Índigo' },
 ];

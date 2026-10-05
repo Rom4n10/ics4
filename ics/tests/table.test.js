@@ -5,7 +5,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
   let isLoaded = false;
 
   beforeEach(() => {
-    // Configurar el DOM mínimo necesario para TableModule
+    // Construir los controles y el contenedor que TableModule actualiza.
     document.body.innerHTML = `
       <input type="text" id="filter-search" />
       <select id="filter-status">
@@ -27,7 +27,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
       <div id="events-container"></div>
     `;
 
-    // Mock de AppState para aislar la prueba de los datos reales del archivo
+    // Usar datos controlados permite conocer exactamente qué filas debe renderizar cada filtro.
     window.AppState = {
       eventTypes: [
         {
@@ -38,7 +38,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
           modality: 'presencial',
           confirmation: 'auto',
           status: 'active',
-          createdAt: '2026-01-15T10:30:00'
+          createdAt: '2026-01-15T10:30:00',
         },
         {
           id: 'evt-002',
@@ -48,7 +48,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
           modality: 'virtual',
           confirmation: 'auto',
           status: 'active',
-          createdAt: '2026-02-01T09:00:00'
+          createdAt: '2026-02-01T09:00:00',
         },
         {
           id: 'evt-003',
@@ -58,14 +58,14 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
           modality: 'virtual',
           confirmation: 'auto',
           status: 'inactive',
-          createdAt: '2026-01-10T13:00:00'
-        }
-      ]
+          createdAt: '2026-01-10T13:00:00',
+        },
+      ],
     };
 
     window.DURATION_PRESETS = [15, 30, 45, 60];
 
-    // Mock de módulos y funciones auxiliares no testeados en esta suite
+    // Sustituir dependencias ajenas a esta suite por spies sin comportamiento real.
     window.FormModule = {
       openEdit: vi.fn(),
       openDuplicate: vi.fn(),
@@ -78,12 +78,12 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
     };
 
     if (!isLoaded) {
-      // Cargar table.js expuesto globalmente una sola vez
+      // Cargar table.js una sola vez y exponer TableModule para las pruebas.
       loadScript('js/table.js', ['TableModule']);
       isLoaded = true;
     }
 
-    // Inicializar el módulo para enlazar los eventos y resetear filtros para evitar estado compartido
+    // Enlazar eventos y limpiar filtros para que cada caso empiece igual.
     window.TableModule.init();
     window.TableModule.clearFilters();
   });
@@ -95,18 +95,18 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
     it('Prueba 13: Búsqueda de eventos por texto debe filtrar filas coincidentes', () => {
       const searchInput = document.getElementById('filter-search');
 
-      // Escribir en el campo de búsqueda
+      // La búsqueda por "médica" debe encontrar las dos descripciones coincidentes.
       searchInput.value = 'médica';
       searchInput.dispatchEvent(new Event('input'));
 
-      // Verificar que se listan solo los que coinciden con "médica" (Consulta General y Teleconsulta)
+      // Verificar cantidad y orden de las filas resultantes.
       const container = document.getElementById('events-container');
       const rows = container.querySelectorAll('tbody tr');
       expect(rows.length).toBe(2);
       expect(rows[0].querySelector('.event-name').textContent).toBe('Consulta General');
       expect(rows[1].querySelector('.event-name').textContent).toBe('Teleconsulta');
 
-      // Probar búsqueda por coincidencia vacía (debe mostrar todos)
+      // Vaciar el campo elimina el filtro y vuelve a mostrar todos los eventos.
       searchInput.value = '';
       searchInput.dispatchEvent(new Event('input'));
       expect(container.querySelectorAll('tbody tr').length).toBe(3);
@@ -115,7 +115,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
     it('Prueba 14: Filtro de estado debe visualizar solo los eventos que coincidan', () => {
       const statusSelect = document.getElementById('filter-status');
 
-      // Filtrar por inactivos
+      // Seleccionar inactivos deja visible solo Revisión de Estudios.
       statusSelect.value = 'inactive';
       statusSelect.dispatchEvent(new Event('change'));
 
@@ -124,7 +124,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
       expect(rows.length).toBe(1);
       expect(rows[0].querySelector('.event-name').textContent).toBe('Revisión de Estudios');
 
-      // Filtrar por activos
+      // Cambiar a activos muestra los otros dos registros.
       statusSelect.value = 'active';
       statusSelect.dispatchEvent(new Event('change'));
       expect(container.querySelectorAll('tbody tr').length).toBe(2);
@@ -133,7 +133,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
     it('Prueba 15: Filtro de duración debe mostrar los eventos de la duración correspondiente', () => {
       const durationSelect = document.getElementById('filter-duration');
 
-      // Filtrar por 15 minutos
+      // Una duración de 15 minutos solo coincide con Teleconsulta.
       durationSelect.value = '15';
       durationSelect.dispatchEvent(new Event('change'));
 
@@ -142,7 +142,7 @@ describe('Pruebas Unitarias - Listado y Filtros (table.js)', () => {
       expect(rows.length).toBe(1);
       expect(rows[0].querySelector('.event-name').textContent).toBe('Teleconsulta');
 
-      // Filtrar por 30 minutos (deben ser 2: Consulta General y Revisión de Estudios)
+      // Cambiar a 30 minutos debe devolver dos registros.
       durationSelect.value = '30';
       durationSelect.dispatchEvent(new Event('change'));
       expect(container.querySelectorAll('tbody tr').length).toBe(2);

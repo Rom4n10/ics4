@@ -5,7 +5,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   let isLoaded = false;
 
   beforeEach(() => {
-    // Limpiar y preparar el DOM básico
+    // Crear los elementos mínimos que booking.js consulta o modifica.
     document.body.innerHTML = `
       <div id="booking-stepper"></div>
       <div id="event-types-list"></div>
@@ -30,13 +30,13 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
       </div>
     `;
 
-    // Mock de ConfirmDialog para evitar dependencias
+    // Aislar el módulo evitando abrir diálogos reales durante estas pruebas.
     window.ConfirmDialog = {
       show: vi.fn(),
     };
 
     if (!isLoaded) {
-      // Cargar las funciones y variables globales de booking.js expuestas al contexto una sola vez
+      // Cargar una vez las funciones puras y el estado que se quieren comprobar.
       loadScript('js/booking.js', [
         'BookingState',
         'BOOKING_CONFIG',
@@ -53,7 +53,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
       isLoaded = true;
     }
 
-    // Resetear el estado para cada test
+    // Restaurar selección, paso y datos del paciente antes de cada caso.
     if (window.BookingState) {
       window.BookingState.currentStep = 1;
       window.BookingState.selectedEventType = null;
@@ -68,6 +68,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   // ============================================
   describe('Integrante 1: Utilidades de fecha y hora', () => {
     it('Prueba 1: formatDateKey debe formatear una fecha como YYYY-MM-DD', () => {
+      // Comprobar que día y mes de un dígito reciben cero inicial.
       const date = new Date(2026, 3, 9); // 9 de abril de 2026
       expect(window.formatDateKey(date)).toBe('2026-04-09');
 
@@ -76,6 +77,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 2: formatTime12h debe convertir hora de 24h a 12h con AM/PM', () => {
+      // Cubrir mañana, mediodía, tarde y medianoche.
       expect(window.formatTime12h('09:00')).toEqual({ time: '9:00', period: 'AM' });
       expect(window.formatTime12h('12:30')).toEqual({ time: '12:30', period: 'PM' });
       expect(window.formatTime12h('14:05')).toEqual({ time: '2:05', period: 'PM' });
@@ -83,6 +85,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 3: capitalize debe poner en mayúscula solo la primera letra', () => {
+      // Verificar texto en minúsculas, mayúsculas y de un solo carácter.
       expect(window.capitalize('presencial')).toBe('Presencial');
       expect(window.capitalize('VIRTUAL')).toBe('VIRTUAL');
       expect(window.capitalize('a')).toBe('A');
@@ -94,12 +97,14 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   // ============================================
   describe('Integrante 2: Validación de formulario', () => {
     it('Prueba 4: isFormValid debe retornar false si los campos obligatorios están vacíos', () => {
+      // Sin nombre ni correo no se permite avanzar.
       window.BookingState.guestData.fullName = '';
       window.BookingState.guestData.email = '';
       expect(window.isFormValid()).toBe(false);
     });
 
     it('Prueba 5: isFormValid debe retornar false si el nombre tiene menos de 3 caracteres', () => {
+      // Comparar un nombre demasiado corto con uno que alcanza el mínimo.
       window.BookingState.guestData.fullName = 'Ab';
       window.BookingState.guestData.email = 'test@example.com';
       expect(window.isFormValid()).toBe(false);
@@ -109,10 +114,11 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 6: isFormValid debe validar correctamente el formato de correo electrónico', () => {
+      // Rechazar formatos incompletos y aceptar un correo con dominio válido.
       window.BookingState.guestData.fullName = 'Juan Pérez';
 
       const invalidEmails = ['juan', 'juan@', 'juan@dominio', 'juan.com', '@dominio.com'];
-      invalidEmails.forEach(email => {
+      invalidEmails.forEach((email) => {
         window.BookingState.guestData.email = email;
         expect(window.isFormValid()).toBe(false);
       });
@@ -127,6 +133,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   // ============================================
   describe('Integrante 3: Reglas de agenda y bloqueo de fechas', () => {
     it('Prueba 7: isDateBlocked debe retornar true para domingos o fechas feriadas', () => {
+      // Los domingos y feriados se bloquean; un lunes laborable permanece disponible.
       const sunday = new Date(2026, 3, 12); // 12 de abril de 2026 (Domingo)
       expect(window.isDateBlocked(sunday)).toBe(true);
 
@@ -138,6 +145,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 8: generateTimeSlots debe generar turnos únicamente en el rango laboral (8h a 18h)', () => {
+      // Fijar la hora actual para obtener un resultado determinista.
       const mockNow = new Date('2026-04-14T06:00:00');
       vi.useFakeTimers();
       vi.setSystemTime(mockNow);
@@ -148,7 +156,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
       const slots = window.generateTimeSlots();
       expect(slots.length).toBeGreaterThan(0);
 
-      slots.forEach(slot => {
+      slots.forEach((slot) => {
         const [hour] = slot.time.split(':').map(Number);
         expect(hour).toBeGreaterThanOrEqual(window.BOOKING_CONFIG.workStart);
         expect(hour).toBeLessThan(window.BOOKING_CONFIG.workEnd);
@@ -158,6 +166,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 9: generateTimeSlots no debe ofrecer turnos con menos de 2 horas de antelación', () => {
+      // Verificar que todos los turnos empiezan desde el límite permitido.
       const mockNow = new Date('2026-04-14T10:00:00');
       vi.useFakeTimers();
       vi.setSystemTime(mockNow);
@@ -167,7 +176,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
 
       const slots = window.generateTimeSlots();
 
-      slots.forEach(slot => {
+      slots.forEach((slot) => {
         const [hour, min] = slot.time.split(':').map(Number);
         const slotHourDecimal = hour + min / 60;
         // Si son las 10:00 AM, el primer turno debe ser posterior o igual a las 12:00 PM
@@ -183,6 +192,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
   // ============================================
   describe('Integrante 4: Turnos alternativos y solapamientos', () => {
     it('Prueba 10: generateTimeSlots debe excluir horarios ocupados y evitar solapamientos', () => {
+      // Comparar un slot ocupado con otro libre del mismo día.
       window.BookingState.selectedDate = '2026-04-14';
       window.BookingState.selectedEventType = window.BOOKING_EVENT_TYPES[0]; // 30 min
 
@@ -191,8 +201,8 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
       vi.setSystemTime(mockNow);
 
       const slots = window.generateTimeSlots();
-      const slot0900 = slots.find(s => s.time === '09:00');
-      const slot1030 = slots.find(s => s.time === '10:30');
+      const slot0900 = slots.find((s) => s.time === '09:00');
+      const slot1030 = slots.find((s) => s.time === '10:30');
 
       // '09:00' está ocupado en MOCK_BOOKED_SLOTS
       expect(slot0900.available).toBe(false);
@@ -203,6 +213,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 11: findNearestSuggestions debe sugerir turnos en días cercanos si no hay disponibilidad en la fecha elegida', () => {
+      // Simular una fecha completa para forzar la búsqueda de alternativas.
       window.BookingState.selectedDate = '2026-04-17'; // Lleno en la mayoría de turnos
       window.BookingState.selectedEventType = window.BOOKING_EVENT_TYPES[0];
 
@@ -223,7 +234,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
       const suggestions = window.findNearestSuggestions(3);
       expect(suggestions.length).toBeGreaterThan(0);
 
-      suggestions.forEach(suggestion => {
+      suggestions.forEach((suggestion) => {
         // La fecha sugerida debe ser distinta a la seleccionada (llena)
         expect(suggestion.date).not.toBe('2026-04-17');
       });
@@ -232,6 +243,7 @@ describe('Pruebas Unitarias - Módulo de Reserva (booking.js)', () => {
     });
 
     it('Prueba 12: findNearestSuggestions debe limitar las sugerencias al parámetro count especificado', () => {
+      // El mismo escenario debe respetar límites de dos y tres sugerencias.
       const mockNow = new Date('2026-04-14T06:00:00');
       vi.useFakeTimers();
       vi.setSystemTime(mockNow);

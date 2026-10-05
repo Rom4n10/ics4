@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
   if (!window.matchMedia) {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: vi.fn().mockImplementation(query => ({
+      value: vi.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
@@ -39,7 +39,7 @@ export function loadScript(relativePath, globalsToExpose = []) {
   let code = fs.readFileSync(filePath, 'utf8');
 
   // Agregar la vinculación explícita al objeto window
-  globalsToExpose.forEach(name => {
+  globalsToExpose.forEach((name) => {
     code += `\nwindow.${name} = ${name};`;
   });
 

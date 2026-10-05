@@ -42,8 +42,8 @@ const AppState = {
   currentUser: {
     name: 'Dr. Martínez',
     role: 'Administrador',
-    initials: 'DM'
-  }
+    initials: 'DM',
+  },
 };
 
 /** Sidebar toggle */
@@ -74,17 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const newBtn = document.getElementById('btn-new-event');
   if (newBtn) newBtn.addEventListener('click', () => FormModule.openCreate());
 
-
-
   // Sidebar toggle
   const sideToggle = document.getElementById('sidebar-toggle');
   if (sideToggle) sideToggle.addEventListener('click', toggleSidebar);
 
   // Tutorial restart from sidebar
   const tutorialBtn = document.getElementById('btn-restart-tutorial');
-  if (tutorialBtn) tutorialBtn.addEventListener('click', () => {
-    TutorialModule.reset();
-  });
+  if (tutorialBtn)
+    tutorialBtn.addEventListener('click', () => {
+      TutorialModule.reset();
+    });
 
   // Animate page load
   document.body.classList.add('loaded');

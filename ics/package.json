@@ -9,10 +9,17 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write js tests testunitarios",
+    "format:check": "prettier --check js tests testunitarios"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
     "jsdom": "^26.0.0",
+    "prettier": "^3.9.9",
     "vite": "^7.3.5",
     "vitest": "^3.0.0"
   }

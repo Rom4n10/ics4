@@ -1,14 +1,14 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest';
+import { beforeEach, describe, it, expect } from 'vitest';
 import { loadScript } from './test-helper.js';
 
 describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
   let isLoaded = false;
 
   beforeEach(() => {
-    // Configurar localStorage vacío
+    // Cada test parte sin preferencias persistidas para evitar contaminación entre casos.
     localStorage.clear();
 
-    // Estructura DOM requerida para modales, temas y toasts
+    // Crear únicamente los nodos que theme.js y modal.js necesitan para trabajar.
     document.body.innerHTML = `
       <button id="btn-theme"></button>
       <button id="theme-panel-close"></button>
@@ -28,7 +28,7 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
     `;
 
     if (!isLoaded) {
-      // Cargar los scripts clásicos exponiendo los módulos a testear una sola vez
+      // Los scripts clásicos se cargan una vez y sus módulos quedan disponibles en window.
       loadScript('js/theme.js', ['ThemeModule']);
       loadScript('js/modal.js', ['ModalManager', 'Toast']);
       isLoaded = true;
@@ -39,20 +39,20 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
   //  INTEGRANTE 6: PERSONALIZACIÓN Y CONTROL DEL DOM
   // ============================================
   describe('Integrante 6: Temas, Modales y Notificaciones', () => {
-
     // Prueba 16: Guardado de preferencias de tema
     it('Prueba 16: ThemeModule debe aplicar el tema y guardar las preferencias en localStorage', () => {
+      // Inicializar el módulo para leer sus valores por defecto.
       window.ThemeModule.init();
 
-      // Cambiar modo a Light y densidad a Compact
+      // Cambiar simultáneamente la apariencia y la densidad de la interfaz.
       window.ThemeModule.setMode('light');
       window.ThemeModule.setDensity('compact');
 
-      // Verificar cambios en el DOM
+      // El módulo refleja las preferencias en atributos del elemento raíz.
       expect(document.documentElement.getAttribute('data-theme')).toBe('light');
       expect(document.documentElement.getAttribute('data-density')).toBe('compact');
 
-      // Verificar persistencia en localStorage
+      // También conserva esas preferencias para futuras cargas de la aplicación.
       const savedPrefs = JSON.parse(localStorage.getItem('ics_theme_prefs'));
       expect(savedPrefs.mode).toBe('light');
       expect(savedPrefs.density).toBe('compact');
@@ -62,17 +62,17 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
     it('Prueba 17: ModalManager debe registrar, abrir y cerrar modales manipulando la clase open', () => {
       const modalElement = document.getElementById('my-modal');
 
-      // Registrar modal
+      // Asociar el identificador lógico con el elemento real del DOM.
       window.ModalManager.register('my-modal', modalElement);
       expect(window.ModalManager.isOpen('my-modal')).toBe(false);
 
-      // Abrir modal
+      // Abrir bloquea el scroll y añade la clase visual open.
       window.ModalManager.open('my-modal');
       expect(window.ModalManager.isOpen('my-modal')).toBe(true);
       expect(modalElement.classList.contains('open')).toBe(true);
       expect(document.body.style.overflow).toBe('hidden');
 
-      // Cerrar modal
+      // Cerrar elimina la clase y devuelve el scroll del documento a su estado normal.
       window.ModalManager.close('my-modal');
       expect(window.ModalManager.isOpen('my-modal')).toBe(false);
       expect(modalElement.classList.contains('open')).toBe(false);
@@ -82,12 +82,13 @@ describe('Pruebas Unitarias - Interfaz y UI (theme.js & modal.js)', () => {
     // Prueba 18: Notificaciones Toast
     it('Prueba 18: Toast debe insertar la alerta en el DOM con las clases visuales y estructura correctas', () => {
       const toastContainer = document.getElementById('toast-container');
+      // Antes de mostrar la notificación, el contenedor debe estar vacío.
       expect(toastContainer.children.length).toBe(0);
 
-      // Desplegar un toast de éxito
+      // Crear una notificación de éxito con su mensaje.
       window.Toast.show('Operación completada', 'success');
 
-      // Verificar estructura en el DOM
+      // Comprobar que se creó un elemento, con clase de éxito y texto correcto.
       expect(toastContainer.children.length).toBe(1);
       const toastElement = toastContainer.querySelector('.toast');
       expect(toastElement.classList.contains('toast-success')).toBe(true);

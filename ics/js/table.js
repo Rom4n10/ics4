@@ -9,7 +9,7 @@ const TableModule = (() => {
     status: 'all',
     duration: 'all',
     dateFrom: '',
-    dateTo: ''
+    dateTo: '',
   };
 
   function init() {
@@ -19,7 +19,7 @@ const TableModule = (() => {
   }
 
   function getFilteredData() {
-    return AppState.eventTypes.filter(event => {
+    return AppState.eventTypes.filter((event) => {
       // Search filter
       if (filters.search) {
         const q = filters.search.toLowerCase();
@@ -86,7 +86,7 @@ const TableModule = (() => {
             </tr>
           </thead>
           <tbody class="stagger-children">
-            ${data.map(event => renderTableRow(event)).join('')}
+            ${data.map((event) => renderTableRow(event)).join('')}
           </tbody>
         </table>
       </div>
@@ -96,19 +96,17 @@ const TableModule = (() => {
   }
 
   function renderTableRow(event) {
-    const durationLabel = event.duration >= 60
-      ? `${event.duration / 60} hr`
-      : `${event.duration} min`;
+    const durationLabel = event.duration >= 60 ? `${event.duration / 60} hr` : `${event.duration} min`;
 
     const modalityLabels = {
       presencial: 'Presencial',
       virtual: 'Virtual',
-      ambas: 'Ambas'
+      ambas: 'Ambas',
     };
 
     const confirmLabels = {
       auto: 'Automática',
-      manual: 'Manual'
+      manual: 'Manual',
     };
 
     return `
@@ -167,16 +165,14 @@ const TableModule = (() => {
 
     container.innerHTML = `
       <div class="events-grid stagger-children">
-        ${data.map(event => renderGridCard(event)).join('')}
+        ${data.map((event) => renderGridCard(event)).join('')}
       </div>
     `;
     bindRowActions();
   }
 
   function renderGridCard(event) {
-    const durationLabel = event.duration >= 60
-      ? `${event.duration / 60} hr`
-      : `${event.duration} min`;
+    const durationLabel = event.duration >= 60 ? `${event.duration / 60} hr` : `${event.duration} min`;
     const modalityLabels = { presencial: 'Presencial', virtual: 'Virtual', ambas: 'Ambas' };
     const confirmLabels = { auto: 'Automática', manual: 'Manual' };
 
@@ -218,8 +214,8 @@ const TableModule = (() => {
       return;
     }
 
-    const activeEvents = data.filter(e => e.status === 'active');
-    const inactiveEvents = data.filter(e => e.status === 'inactive');
+    const activeEvents = data.filter((e) => e.status === 'active');
+    const inactiveEvents = data.filter((e) => e.status === 'inactive');
 
     container.innerHTML = `
       <div class="kanban-board stagger-children">
@@ -229,7 +225,7 @@ const TableModule = (() => {
             <span class="kanban-column-count">${activeEvents.length}</span>
           </div>
           <div class="kanban-column-content">
-            ${activeEvents.map(event => renderGridCard(event)).join('')}
+            ${activeEvents.map((event) => renderGridCard(event)).join('')}
           </div>
         </div>
         <div class="kanban-column" data-cy="kanban-column-inactive">
@@ -238,7 +234,7 @@ const TableModule = (() => {
             <span class="kanban-column-count">${inactiveEvents.length}</span>
           </div>
           <div class="kanban-column-content">
-            ${inactiveEvents.map(event => renderGridCard(event)).join('')}
+            ${inactiveEvents.map((event) => renderGridCard(event)).join('')}
           </div>
         </div>
       </div>
@@ -311,10 +307,10 @@ const TableModule = (() => {
 
   function bindViewToggle() {
     const btns = document.querySelectorAll('.view-toggle-btn');
-    btns.forEach(btn => {
+    btns.forEach((btn) => {
       btn.addEventListener('click', () => {
         currentView = btn.dataset.view;
-        btns.forEach(b => b.classList.remove('active'));
+        btns.forEach((b) => b.classList.remove('active'));
         btn.classList.add('active');
         render();
       });
@@ -322,7 +318,7 @@ const TableModule = (() => {
   }
 
   function bindRowActions() {
-    document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+    document.querySelectorAll('[data-action="edit"]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
@@ -330,22 +326,22 @@ const TableModule = (() => {
       });
     });
 
-    document.querySelectorAll('[data-action="duplicate"]').forEach(btn => {
+    document.querySelectorAll('[data-action="duplicate"]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        const event = AppState.eventTypes.find(ev => ev.id === id);
+        const event = AppState.eventTypes.find((ev) => ev.id === id);
         if (event) {
           FormModule.openDuplicate(event);
         }
       });
     });
 
-    document.querySelectorAll('[data-action="toggle-status"]').forEach(btn => {
+    document.querySelectorAll('[data-action="toggle-status"]').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.dataset.id;
-        const event = AppState.eventTypes.find(ev => ev.id === id);
+        const event = AppState.eventTypes.find((ev) => ev.id === id);
         if (!event) return;
 
         if (event.status === 'active') {
@@ -360,7 +356,7 @@ const TableModule = (() => {
               persistEventTypes();
               render();
               Toast.show('baja confirmada', 'success');
-            }
+            },
           });
         } else {
           event.status = 'active';
@@ -373,7 +369,7 @@ const TableModule = (() => {
     });
 
     // Grid card click = edit
-    document.querySelectorAll('.event-card').forEach(card => {
+    document.querySelectorAll('.event-card').forEach((card) => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.cell-actions')) return;
         FormModule.openEdit(card.dataset.id);
