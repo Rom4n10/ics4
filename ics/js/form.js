@@ -420,7 +420,7 @@ const FormModule = (() => {
       // Edit existing
       const event = AppState.eventTypes.find((e) => e.id === editingId);
       if (event) {
-        Object.assign(event, data, { updatedAt: new Date().toISOString() });
+        Object.assign(event, data, { confirmation: 'manual', updatedAt: new Date().toISOString() });
         Toast.show(`"${data.name}" actualizado correctamente`, 'success');
       }
     } else {
